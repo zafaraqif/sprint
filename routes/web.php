@@ -5,7 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ServiceController;
-
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +23,11 @@ Route::get('login', [AuthController::class, 'create'])->name('login');
 Route::post('login', [AuthController::class, 'store'])->name('login.store');
 Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
 
+Route::resource('account', AccountController::class);
+
 
 Route::get('/', [IndexController::class, 'index']);
+Route::get('home', [HomeController::class, 'index']);
 Route::resource('community', CommunityController::class)->only(['index', 'create', 'store']);
 Route::resource('service', ServiceController::class);
+Route::resource('order', OrderController::class);

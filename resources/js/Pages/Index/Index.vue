@@ -1,5 +1,12 @@
 <template>
-    <h1>Home Page</h1>
+    <h1>Landing Page</h1>
 </template>
 
 <script setup></script>
+
+<script>
+import LandingPage from "@/Layouts/LandingPage.vue";
+export default {
+    layout: LandingPage,
+};
+</script>

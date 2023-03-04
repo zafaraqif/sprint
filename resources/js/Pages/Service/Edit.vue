@@ -185,7 +185,8 @@ const form = useForm({
     charge_80gsm: props.service.charge_80gsm,
 });
 
-const update = () => form.put(route("service.update"));
+const update = () =>
+    form.put(route("service.update", { service: props.service.service_id }));
 </script>
 
 <style scoped>

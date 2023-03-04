@@ -8,6 +8,11 @@ use App\Models\Service;
 class ServiceController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return inertia(
@@ -62,7 +67,6 @@ class ServiceController extends Controller
 
     public function update(Request $request, Service $service)
     {
-        dd($service->all());
         $service->update(
             $request->validate([
                 'sprinter_id' => 'required',

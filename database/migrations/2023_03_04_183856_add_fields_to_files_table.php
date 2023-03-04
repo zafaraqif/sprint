@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('files', function (Blueprint $table) {
-            $table->unsignedTinyInteger('order_id');
+            $table->foreignIdFor(\App\Models\Order::class, 'order_id')->constrained('orders', 'order_id')->onUpdate('cascade')->onDelete('cascade');
             $table->string('file_name');
             $table->unsignedSmallInteger('page_no');
             $table->unsignedTinyInteger('pages_per_sheet');
@@ -33,8 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropColumns('files', [
-            //
-        ]);
+        Schema::dropIfExists('files');
     }
 };

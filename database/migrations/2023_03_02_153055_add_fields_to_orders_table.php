@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedTinyInteger('user_id');
-            $table->unsignedTinyInteger('service_id');
+            $table->foreignIdFor(\App\Models\User::class, 'user_id')->constrained('users', 'user_id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Service::class, 'service_id')->constrained('services', 'service_id')->onUpdate('cascade')->onDelete('cascade');
             $table->date('order_pickup_date');
             $table->time('order_pickup_time');
             $table->unsignedDecimal('total_price');
@@ -30,7 +30,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropColumns('files', [
+        Schema::dropColumns('orders', [
             //
         ]);
     }

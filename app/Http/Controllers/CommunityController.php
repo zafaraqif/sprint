@@ -7,6 +7,12 @@ use App\Models\Community;
 
 class CommunityController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return inertia(

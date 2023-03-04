@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-            $table->unsignedTinyInteger('sprinter_id');
-            $table->unsignedTinyInteger('community_id');
+            $table->foreignIdFor(\App\Models\User::class, 'user_id')->constrained('users', 'user_id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Community::class, 'community_id')->constrained('communities', 'community_id')->onUpdate('cascade')->onDelete('cascade');
             $table->string('service_name');
             $table->time('start_time');
             $table->time('end_time');

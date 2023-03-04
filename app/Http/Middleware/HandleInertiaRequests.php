@@ -39,7 +39,14 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'flash' => [
                 'success' => $request->session()->get('success')
-            ]
+            ],
+            'user' => $request->user() ? [
+                'id' => $request->user()->id,
+                'name' => $request->user()->name,
+                'email' => $request->user()->email,
+                'phone_no' => $request->user()->phone_no,
+                'user_type' => $request->user()->user_type,
+            ] : null
         ]);
     }
 }
