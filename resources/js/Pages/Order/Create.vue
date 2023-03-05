@@ -2,18 +2,6 @@
     <form @submit.prevent="create">
         <div>
             <div>
-                <label>Sprinter ID</label>
-                <input
-                    v-model.number="form.user_id"
-                    type="number"
-                    placeholder="Enter User ID"
-                />
-                <div v-if="form.errors.user_id">
-                    {{ form.errors.user_id }}
-                </div>
-            </div>
-
-            <div>
                 <label>Service ID</label>
                 <input
                     v-model.number="form.service_id"
@@ -88,10 +76,12 @@
 </template>
 
 <script setup>
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm, usePage } from "@inertiajs/inertia-vue3";
+
+const page = usePage();
 
 const form = useForm({
-    user_id: null,
+    user_id: page.props.value.user.user_id,
     service_id: null,
     order_pickup_date: null,
     order_pickup_time: null,

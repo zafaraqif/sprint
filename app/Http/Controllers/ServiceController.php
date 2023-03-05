@@ -33,7 +33,7 @@ class ServiceController extends Controller
         Service::create([
             ...$request->all(),
             ...$request->validate([
-                'sprinter_id' => 'required',
+                'user_id' => 'required',
                 'community_id' => 'required',
                 'service_name' => 'required',
                 'start_time' => 'required',
@@ -50,9 +50,14 @@ class ServiceController extends Controller
         return redirect()->route('service.index')->with('success', 'Service was created!');
     }
 
-    public function show($id)
+    public function show(Service $service)
     {
-        //
+        return inertia(
+            'Service/Show',
+            [
+                'service' => $service
+            ]
+        );
     }
 
     public function edit(Service $service)
@@ -69,7 +74,7 @@ class ServiceController extends Controller
     {
         $service->update(
             $request->validate([
-                'sprinter_id' => 'required',
+                'user_id' => 'required',
                 'community_id' => 'required',
                 'service_name' => 'required',
                 'start_time' => 'required',

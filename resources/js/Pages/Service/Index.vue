@@ -11,6 +11,6 @@
 <script setup>
 import { Link } from "@inertiajs/inertia-vue3";
 defineProps({
-    services: Array,
+    services: Object,
 });
 </script>

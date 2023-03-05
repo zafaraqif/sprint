@@ -41,10 +41,10 @@ class HandleInertiaRequests extends Middleware
                 'success' => $request->session()->get('success')
             ],
             'user' => $request->user() ? [
-                'id' => $request->user()->id,
+                'user_id' => $request->user()->user_id,
                 'name' => $request->user()->name,
                 'email' => $request->user()->email,
-                'phone_no' => $request->user()->phone_no,
+                'phone_number' => $request->user()->phone_number,
                 'user_type' => $request->user()->user_type,
             ] : null
         ]);
