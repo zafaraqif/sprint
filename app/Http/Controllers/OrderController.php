@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -36,11 +37,12 @@ class OrderController extends Controller
                 'service_id' => 'required',
                 'order_pickup_date' => 'required',
                 'order_pickup_time' => 'required',
-                'total_price' => 'required',
-                'order_status' => 'required',
             ])
         ]);
-        return redirect()->route('order.index')->with('success', 'Order was created!');
+        $user = Auth::user();
+        $order = $user->order->last();
+        $id = $order->order_id;
+        return redirect('/order/' . $id . '/file/create');
     }
 
     public function show($id)

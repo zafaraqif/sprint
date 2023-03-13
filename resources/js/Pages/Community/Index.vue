@@ -1,5 +1,5 @@
 <template>
-    <h1>Community Page</h1>
+    <h1>Community List</h1>
     <div v-for="community in communities" :key="community.community_id">
         {{ community.community_name }}, {{ community.locality }},
         {{ community.district }}, {{ community.state }}

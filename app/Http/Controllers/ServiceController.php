@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Service;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -11,16 +12,20 @@ class ServiceController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Service::class, 'service');
     }
 
     public function index()
     {
-        return inertia(
-            'Service/Index',
-            [
-                'services' => Service::all()
-            ]
-        );
+        $user = Auth::user();
+        $service = $user->service;
+
+        if (!$user->service) {
+            return redirect('/service/create');
+        } else {
+            $id = $service->service_id;
+            return redirect('/service/' . $id . '/edit');
+        }
     }
 
     public function create()

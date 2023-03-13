@@ -1,4 +1,6 @@
 <template>
+    <h1>Create Service</h1>
+    <Link href="/community/create" as="button">Create Community</Link>
     <form @submit.prevent="create">
         <div>
             <div>
@@ -152,7 +154,7 @@
 </template>
 
 <script setup>
-import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 
 const page = usePage();
 

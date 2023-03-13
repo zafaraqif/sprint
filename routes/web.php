@@ -8,6 +8,9 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QueueController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,7 +30,10 @@ Route::resource('account', AccountController::class);
 
 
 Route::get('/', [IndexController::class, 'index']);
-Route::get('home', [HomeController::class, 'index']);
+Route::resource('home', HomeController::class);
 Route::resource('community', CommunityController::class)->only(['index', 'create', 'store']);
 Route::resource('service', ServiceController::class);
-Route::resource('order', OrderController::class);
+Route::resource('order', OrderController::class)->except(['edit', 'update']);
+Route::resource('order.file', FileController::class)->only(['create', 'store']);
+Route::get('profile', [ProfileController::class, 'index']);
+Route::resource('queue', QueueController::class);

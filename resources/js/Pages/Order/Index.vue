@@ -1,5 +1,5 @@
 <template>
-    <h1>Order Page</h1>
+    <h1>Order History</h1>
     <div v-for="order in orders" :key="order.order_id">
         {{ order.total_price }}
     </div>

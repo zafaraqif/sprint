@@ -1,4 +1,5 @@
 <template>
+    <h1>Print Order</h1>
     <form @submit.prevent="create">
         <div>
             <div>
@@ -37,32 +38,6 @@
                 </div>
             </div>
 
-            <div>
-                <label>Total Price</label>
-                <input
-                    v-model="form.total_price"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="Enter total price"
-                />
-                <div v-if="form.errors.total_price">
-                    {{ form.errors.total_price }}
-                </div>
-            </div>
-
-            <div>
-                <label>Order Status</label>
-                <input
-                    v-model="form.order_status"
-                    type="number"
-                    placeholder="Enter order status"
-                />
-                <div v-if="form.errors.order_status">
-                    {{ form.errors.order_status }}
-                </div>
-            </div>
-
             <div class="mt-4">
                 <button
                     type="submit"
@@ -85,8 +60,6 @@ const form = useForm({
     service_id: null,
     order_pickup_date: null,
     order_pickup_time: null,
-    total_price: null,
-    order_status: null,
 });
 
 const create = () => form.post(route("order.store"));

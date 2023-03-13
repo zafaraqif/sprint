@@ -1,4 +1,5 @@
 <template>
+    <h1>Create Community</h1>
     <form @submit.prevent="create">
         <div>
             <div>

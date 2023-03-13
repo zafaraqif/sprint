@@ -1,4 +1,5 @@
 <template>
+    <h1>Register</h1>
     <form @submit.prevent="register">
         <div>
             <div>
