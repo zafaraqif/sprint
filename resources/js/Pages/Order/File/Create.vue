@@ -45,10 +45,15 @@
         <button type="submit">Submit</button>
         <button type="reset" @click="reset">Reset</button>
     </form>
+    <Link as="button" :href="route('order.show', { order: order.order_id })"
+        >Next</Link
+    >
 </template>
 
 <script setup>
-import { useForm } from "@inertiajs/inertia-vue3";
+import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
+
+const page = usePage();
 
 const props = defineProps({
     order: Object,

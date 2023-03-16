@@ -86,6 +86,19 @@
                     {{ form.errors.pickup_address }}
                 </div>
             </div>
+
+            <div>
+                <label>Contact number</label>
+                <input
+                    v-model="form.contact_number"
+                    type="text"
+                    placeholder="Enter service contact number"
+                />
+                <div v-if="form.errors.contact_number">
+                    {{ form.errors.contact_number }}
+                </div>
+            </div>
+
             <div>
                 <label>Print Page Limit</label>
                 <input
@@ -167,6 +180,7 @@ const form = useForm({
     start_pickup_time: null,
     end_pickup_time: null,
     pickup_address: null,
+    contact_number: null,
     page_limit: null,
     price_bnw: null,
     price_color: null,

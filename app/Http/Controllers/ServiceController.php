@@ -21,7 +21,7 @@ class ServiceController extends Controller
         $service = $user->service;
 
         if (!$user->service) {
-            return redirect('/service/create');
+            return redirect('/service/create')->with('success', 'Service was created!');
         } else {
             $id = $service->service_id;
             return redirect('/service/' . $id . '/edit');
@@ -46,13 +46,14 @@ class ServiceController extends Controller
                 'start_pickup_time' => 'required',
                 'end_pickup_time' => 'required',
                 'pickup_address' => 'required',
+                'contact_number' => 'required',
                 'page_limit' => 'required|min:1',
                 'price_bnw' => 'required|min:0',
                 'price_color' => 'required|min:0',
                 'charge_80gsm' => 'required|min:0',
             ])
         ]);
-        return redirect()->route('service.index')->with('success', 'Service was created!');
+        return redirect()->route('service.index');
     }
 
     public function show(Service $service)
@@ -87,13 +88,14 @@ class ServiceController extends Controller
                 'start_pickup_time' => 'required',
                 'end_pickup_time' => 'required',
                 'pickup_address' => 'required',
+                'contact_number' => 'required',
                 'page_limit' => 'required|min:1',
                 'price_bnw' => 'required|min:0',
                 'price_color' => 'required|min:0',
                 'charge_80gsm' => 'required|min:0',
             ])
         );
-        return redirect()->route('service.index')->with('success', 'Service was updated!');
+        return redirect()->back()->with('success', 'Service was updated!');
     }
 
     public function destroy($id)

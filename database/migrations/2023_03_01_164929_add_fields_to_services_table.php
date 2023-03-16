@@ -23,6 +23,7 @@ return new class extends Migration
             $table->time('end_pickup_time')->nullable();
             $table->unsignedTinyInteger('service_status')->nullable();
             $table->string('pickup_address')->nullable();
+            $table->string('contact_number')->nullable();
             $table->unsignedSmallInteger('page_limit')->nullable();
             $table->unsignedDecimal('price_bnw')->nullable();
             $table->unsignedDecimal('price_color')->nullable();

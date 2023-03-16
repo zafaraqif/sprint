@@ -9,8 +9,8 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\FileController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QueueController;
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,7 +26,7 @@ Route::get('login', [AuthController::class, 'create'])->name('login');
 Route::post('login', [AuthController::class, 'store'])->name('login.store');
 Route::delete('logout', [AuthController::class, 'destroy'])->name('logout');
 
-Route::resource('account', AccountController::class);
+Route::resource('account', AccountController::class)->only(['index', 'create', 'store', 'update']);
 
 
 Route::get('/', [IndexController::class, 'index']);
@@ -35,5 +35,5 @@ Route::resource('community', CommunityController::class)->only(['index', 'create
 Route::resource('service', ServiceController::class);
 Route::resource('order', OrderController::class)->except(['edit', 'update']);
 Route::resource('order.file', FileController::class)->only(['create', 'store']);
-Route::get('profile', [ProfileController::class, 'index']);
 Route::resource('queue', QueueController::class);
+Route::resource('order.payment', PaymentController::class)->only(['create']);

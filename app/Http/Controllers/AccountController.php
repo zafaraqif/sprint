@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
+    public function index()
+    {
+        return inertia(
+            'Profile/Index',
+            [
+                'message' => 'Your Profile'
+            ]
+        );
+    }
+
     public function create()
     {
         return inertia('Auth/Register');
@@ -25,5 +35,16 @@ class AccountController extends Controller
         Auth::login($user);
 
         return redirect('/home')->with('success', 'Account created!');
+    }
+
+    public function update(Request $request, User $account)
+    {
+        $account->update(
+            $request->validate([
+                'password' => 'required|min:8|confirmed',
+            ])
+        );
+        $account->save();
+        return redirect()->back()->with('success', 'Password changed!');
     }
 }

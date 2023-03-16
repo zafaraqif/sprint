@@ -11,14 +11,22 @@ class OrderController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Order::class, 'order');
     }
 
     public function index()
     {
+        $user = Auth::user();
+        if (Auth::user()->user_type == 1) {
+            $order = Order::where('user_id', '=', $user->user_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
+        } elseif (Auth::user()->user_type == 2) {
+            $order = Order::where('service_id', '=', $user->service->service_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
+        }
+
         return inertia(
             'Order/Index',
             [
-                'orders' => Order::all()
+                'orders' => $order
             ]
         );
     }
@@ -45,23 +53,72 @@ class OrderController extends Controller
         return redirect('/order/' . $id . '/file/create');
     }
 
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        if ($order->total_price == null) {
+            $price = 0;
+            $pages = 0;
+            $total = 0;
+            foreach ($order->file as $file) {
+                switch ($file->print_color) {
+                    case 1:
+                        $price = $file->pages_to_print * $order->service->price_bnw;
+                        break;
+                    case 2:
+                        $price = $file->pages_to_print * $order->service->price_color;
+                        break;
+                };
+                switch ($file->print_method) {
+                    case 1:
+                        $pages = $file->pages_to_print;
+                        break;
+                    case 2:
+                        if ($file->pages_to_print == 1) {
+                            $pages = 1;
+                        } else {
+                            $pages = $file->pages_to_print / 2;
+                        }
+                        break;
+                };
+                switch ($file->paper_weight) {
+                    case 0:
+                        break;
+                    case 1:
+                        $price = $price + ($pages * $order->service->charge_80gsm);
+                        break;
+                };
+                $total = $total + $price;
+            }
+            $order->total_price = $total;
+            $order->save();
+        }
+
+        if ($order->order_status == null) {
+            return inertia(
+                'Order/Show',
+                [
+                    'order' => $order,
+                    'files' => $order->file,
+                    'service' => $order->service,
+                    'page' => 'order',
+                ]
+            );
+        } else {
+            return inertia(
+                'Order/Show',
+                [
+                    'order' => $order,
+                    'files' => $order->file,
+                    'service' => $order->service,
+                    'page' => 'summary',
+                ]
+            );
+        }
     }
 
-    public function edit(Order $service)
+    public function destroy(Order $order)
     {
-        //
-    }
-
-    public function update(Request $request, Order $service)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        $order->delete();
+        return redirect()->back()->with('success', 'Order was cancelled!');
     }
 }

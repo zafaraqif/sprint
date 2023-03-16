@@ -12,7 +12,7 @@
             <Link href="/service">Print Service</Link>&nbsp;
         </span>
         <Link href="/order">Order History</Link>&nbsp;
-        <Link href="/profile">Profile</Link>&nbsp;
+        <Link href="/account">Profile</Link>&nbsp;
         <Link href="/logout" method="delete" as="button">Logout</Link>&nbsp;{{
             user.name
         }}
@@ -29,7 +29,6 @@ const page = usePage();
 const flashSuccess = computed(() => page.props.value.flash.success);
 defineProps({
     message: String,
-    services: Array,
 });
 const user = computed(() => page.props.value.user);
 const isCustomer = computed(() => page.props.value.user.user_type == 1);
