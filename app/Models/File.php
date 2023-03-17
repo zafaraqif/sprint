@@ -11,7 +11,7 @@ class File extends Model
     use HasFactory;
     protected $primaryKey = 'file_id';
     protected $fillable = [
-        'order_id', 'page_no', 'pages_per_sheet', 'pages_to_print', 'print_color', 'print_method', 'print_method', 'paper_weight', 'file_path',
+        'order_id', 'page_number', 'pages_per_sheet', 'pages_to_print', 'sheets_to_print', 'orientation', 'print_color', 'print_method', 'print_method', 'paper_weight', 'file_path',
     ];
 
     public function order(): BelongsTo

@@ -53,7 +53,7 @@ class OrderPolicy
      */
     public function update(User $user, Order $order)
     {
-        return $user->user_id === $order->user_id;
+        return true;
     }
 
     /**

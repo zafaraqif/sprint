@@ -20,7 +20,11 @@ class OrderController extends Controller
         if (Auth::user()->user_type == 1) {
             $order = Order::where('user_id', '=', $user->user_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
         } elseif (Auth::user()->user_type == 2) {
-            $order = Order::where('service_id', '=', $user->service->service_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
+            if (Auth::user()->service == null) {
+                $order = null;
+            } else {
+                $order = Order::where('service_id', '=', $user->service->service_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
+            }
         }
 
         return inertia(
@@ -57,7 +61,6 @@ class OrderController extends Controller
     {
         if ($order->total_price == null) {
             $price = 0;
-            $pages = 0;
             $total = 0;
             foreach ($order->file as $file) {
                 switch ($file->print_color) {
@@ -68,23 +71,11 @@ class OrderController extends Controller
                         $price = $file->pages_to_print * $order->service->price_color;
                         break;
                 };
-                switch ($file->print_method) {
-                    case 1:
-                        $pages = $file->pages_to_print;
-                        break;
-                    case 2:
-                        if ($file->pages_to_print == 1) {
-                            $pages = 1;
-                        } else {
-                            $pages = $file->pages_to_print / 2;
-                        }
-                        break;
-                };
                 switch ($file->paper_weight) {
                     case 0:
                         break;
                     case 1:
-                        $price = $price + ($pages * $order->service->charge_80gsm);
+                        $price = $price + ($file->sheets_to_print * $order->service->charge_80gsm);
                         break;
                 };
                 $total = $total + $price;
@@ -116,9 +107,16 @@ class OrderController extends Controller
         }
     }
 
+    public function update(Order $order)
+    {
+        $order->order_status = 6;
+        $order->save();
+        return redirect()->back()->with('success', 'Order was collected!');
+    }
+
     public function destroy(Order $order)
     {
         $order->delete();
-        return redirect()->back()->with('success', 'Order was cancelled!');
+        return redirect()->back()->with('success', 'Order was deleted!');
     }
 }

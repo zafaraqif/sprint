@@ -9,8 +9,8 @@ class PaymentController extends Controller
 {
     public function create(Order $order)
     {
-        $order->order_status = 1;
+        $order->order_status = 2;
         $order->save();
-        return redirect()->route('home.index')->with('success', 'Order was successful!');
+        return redirect()->route('home.index')->with('success', 'Order pending!');
     }
 }

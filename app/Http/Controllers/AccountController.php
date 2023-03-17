@@ -10,10 +10,12 @@ class AccountController extends Controller
 {
     public function index()
     {
+        (Auth::user()->user_type == 1) ? $service = null : $service = Auth::user()->service;
+
         return inertia(
             'Profile/Index',
             [
-                'message' => 'Your Profile'
+                'service' => $service
             ]
         );
     }

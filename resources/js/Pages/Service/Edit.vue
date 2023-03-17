@@ -1,5 +1,8 @@
 <template>
     <h1>Update Service</h1>
+    <Link :href="'/open/' + service.service_id" method="put">Open</Link>&nbsp;
+    <Link :href="'/close/' + service.service_id" method="put">Close</Link
+    ><br /><br />
     <form @submit.prevent="update">
         <div>
             <div>
@@ -166,7 +169,7 @@
 </template>
 
 <script setup>
-import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
     service: Object,

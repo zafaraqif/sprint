@@ -39,7 +39,7 @@ class CommunityController extends Controller
                 'state' => 'required',
             ])
         ]);
-        return redirect()->route('community.index')->with('success', 'Community was created!');
+        return redirect()->route('service.index')->with('success', 'Community was created!');
     }
 
     public function show($id)

@@ -21,7 +21,7 @@ class ServiceController extends Controller
         $service = $user->service;
 
         if (!$user->service) {
-            return redirect('/service/create')->with('success', 'Service was created!');
+            return redirect('/service/create');
         } else {
             $id = $service->service_id;
             return redirect('/service/' . $id . '/edit');
@@ -53,7 +53,7 @@ class ServiceController extends Controller
                 'charge_80gsm' => 'required|min:0',
             ])
         ]);
-        return redirect()->route('service.index');
+        return redirect()->route('service.index')->with('success', 'Service was created!');
     }
 
     public function show(Service $service)

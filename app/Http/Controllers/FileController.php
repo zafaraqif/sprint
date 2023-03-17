@@ -5,14 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\File;
-use Illuminate\Validation\ValidationException;
 
 class FileController extends Controller
 {
 
-    public function index()
+    public function index(Order $order)
     {
-        //
+        $files = File::where('order_id', '=', $order->order_id)->get();
+        return inertia(
+            'Order/File/Index',
+            [
+                'files' => $files,
+                'order' => $order
+            ]
+        );
     }
 
     public function create(Order $order)
@@ -37,9 +43,11 @@ class FileController extends Controller
             $id = $order->order_id;
             File::create([
                 'order_id' => $id,
-                'page_no' => $metaData['Pages'],
+                'page_number' => $metaData['Pages'],
                 'pages_per_sheet' => $request->pages_per_sheet,
-                'pages_to_print' => $metaData['Pages'] / $request->pages_per_sheet,
+                'pages_to_print' => round($metaData['Pages'] / $request->pages_per_sheet),
+                'sheets_to_print' => round(($metaData['Pages'] / $request->pages_per_sheet) / $request->print_method),
+                'orientation' => $request->orientation,
                 'print_color' => $request->print_color,
                 'print_method' => $request->print_method,
                 'paper_weight' => $request->paper_weight,
@@ -49,9 +57,10 @@ class FileController extends Controller
         return redirect()->back()->with('success', 'File uploaded!');
     }
 
-    public function show($id)
+    public function show(Order $order, File $file)
     {
-        //
+        $filename = $file->file_path;
+        return response()->file('C:/sprint/public/storage/' . $file->file_path);
     }
 
     public function destroy($id)

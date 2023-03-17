@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::table('files', function (Blueprint $table) {
             $table->foreignIdFor(\App\Models\Order::class, 'order_id')->constrained('orders', 'order_id')->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedSmallInteger('page_no');
+            $table->unsignedSmallInteger('page_number');
             $table->unsignedTinyInteger('pages_per_sheet');
             $table->unsignedSmallInteger('pages_to_print');
+            $table->unsignedSmallInteger('sheets_to_print');
+            $table->unsignedTinyInteger('orientation');
             $table->unsignedTinyInteger('print_color');
             $table->unsignedTinyInteger('print_method');
             $table->unsignedTinyInteger('paper_weight');
