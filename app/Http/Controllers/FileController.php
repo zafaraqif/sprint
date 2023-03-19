@@ -40,13 +40,18 @@ class FileController extends Controller
             $pdf = $parser->parseContent(file_get_contents($request->file('files')[0]));
             $metaData = $pdf->getDetails();
 
+            if (round($metaData['Pages'] / $request->pages_per_sheet) < 1)
+                $pagesToPrint = 1;
+            else
+                $pagesToPrint = round($metaData['Pages'] / $request->pages_per_sheet);
+
             $id = $order->order_id;
             File::create([
                 'order_id' => $id,
                 'page_number' => $metaData['Pages'],
                 'pages_per_sheet' => $request->pages_per_sheet,
-                'pages_to_print' => round($metaData['Pages'] / $request->pages_per_sheet),
-                'sheets_to_print' => round(($metaData['Pages'] / $request->pages_per_sheet) / $request->print_method),
+                'pages_to_print' => $pagesToPrint,
+                'sheets_to_print' => round($pagesToPrint / $request->print_method),
                 'orientation' => $request->orientation,
                 'print_color' => $request->print_color,
                 'print_method' => $request->print_method,

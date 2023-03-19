@@ -33,8 +33,9 @@
         <h2>Service</h2>
         <div v-if="service == null">Service Not Created</div>
         <div v-else>
-            <span>Service Status: {{ service.service_status }}</span
-            ><br />
+            Service Status:
+            <span v-if="service.service_status == 0">Close</span>
+            <span v-if="service.service_status == 1">Open</span><br />
             <span>Service Name: {{ service.service_name }}</span
             ><br />
             <span>Community: {{ service.community_id }}</span

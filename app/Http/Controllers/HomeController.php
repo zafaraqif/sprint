@@ -35,7 +35,7 @@ class HomeController extends Controller
             }
             $user_service_id = 'service_id';
             $relationship = '=';
-            $total = Order::where($user_service_id, '=', $id)->get()->sum('total_price');
+            $total = number_format((float)Order::where($user_service_id, '=', $id)->get()->sum('total_price'), 2, '.', '');
             $services = null;
         }
 
