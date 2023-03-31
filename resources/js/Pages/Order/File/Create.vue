@@ -1,68 +1,140 @@
 <template>
-    <form @submit.prevent="upload">
-        <input type="file" accept=".pdf" @input="addFiles" />
+    <Navbar>
+        <PageTitle>
+            <Title>4. Upload File(s)</Title>
+            <Breadcrumb
+                >Print Order &nbsp;/&nbsp; <span>Community</span>&nbsp; /
+                &nbsp;<span>Sprinter</span> &nbsp;/&nbsp;
+                <span>Order Details</span>&nbsp; /&nbsp;
+                <span>File(s)</span></Breadcrumb
+            >
+        </PageTitle>
+        <RightSide></RightSide>
+    </Navbar>
+    <div class="flex justify-between gap-4 mb-6">
+        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
+    </div>
+    <form @submit.prevent="upload" class="bg-white p-6 rounded-md shadow-sm">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-1">
+                <label class="block mb-1 text-gray-500">Upload File</label>
+                <input
+                    type="file"
+                    accept=".pdf"
+                    @input="addFiles"
+                    class="w-full border rounded-md file:px-4 file:py-2 border-gray-200 file:text-white file:border-0 file:bg-indigo-500 file:mr-4 file:font-semibold file:hover:cursor-pointer"
+                />
+            </div>
+            <div class="col-span-1">
+                <label class="block mb-1 text-gray-500">Pages Per Sheet</label>
+                <select
+                    v-model.number="form.pages_per_sheet"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
+                >
+                    <option disabled selected hidden>
+                        Choose pages per sheet
+                    </option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <option value="9">9</option>
+                    <option value="16">16</option>
+                </select>
+            </div>
 
-        <div>
-            <label>Number of Pages (per sheet)</label>
-            <select v-model.number="form.pages_per_sheet">
-                <option disabled selected hidden>Choose pages per sheet</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-                <option value="6">6</option>
-                <option value="9">9</option>
-                <option value="16">16</option>
-            </select>
+            <div class="col-span-1">
+                <label class="block mb-1 text-gray-500">Page Orientation</label>
+                <select
+                    v-model.number="form.orientation"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
+                >
+                    <option disabled selected hidden>
+                        Choose page orientation
+                    </option>
+                    <option value="1">Portrait</option>
+                    <option value="2">Landscape</option>
+                </select>
+            </div>
+
+            <div class="col-span-1">
+                <label class="block mb-1 text-gray-500">Print Color</label>
+                <select
+                    v-model.number="form.print_color"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
+                >
+                    <option disabled selected hidden>Choose print color</option>
+                    <option value="1">Black & White</option>
+                    <option value="2">Color</option>
+                </select>
+            </div>
+
+            <div class="col-span-1">
+                <label class="block mb-1 text-gray-500">Print Method</label>
+                <select
+                    v-model.number="form.print_method"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
+                >
+                    <option disabled selected hidden>
+                        Choose print method
+                    </option>
+                    <option value="1">One-Sided</option>
+                    <option value="2">Two-Sided</option>
+                </select>
+            </div>
+
+            <div class="col-span-1">
+                <label class="block mb-1 text-gray-500">Paper Thickness</label>
+                <select
+                    v-model.number="form.paper_weight"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
+                >
+                    <option value="0">70gsm Paper</option>
+                    <option value="1">80gsm Paper</option>
+                </select>
+            </div>
+            <div class="col-span-2 mt-2">
+                <div class="flex gap-x-2">
+                    <button
+                        type="reset"
+                        @click="reset"
+                        class="px-4 py-2 text-sm border border-indigo-500 text-indigo-500 font-semibold rounded-md disabled:hidden"
+                        :disabled="!canUpload"
+                    >
+                        Reset
+                    </button>
+                    <button
+                        type="submit"
+                        class="px-4 py-2 bg-indigo-500 text-sm text-white rounded-md font-bold disabled:hidden"
+                        :disabled="!canUpload"
+                    >
+                        Upload
+                    </button>
+                    <Link
+                        v-if="canProceed"
+                        as="button"
+                        :href="route('order.show', { order: order.order_id })"
+                        class="px-4 py-2 bg-indigo-500 text-sm text-white rounded-md font-bold"
+                        >Next</Link
+                    >
+                </div>
+            </div>
         </div>
-
-        <div>
-            <label>Page Orientation</label>
-            <select v-model.number="form.orientation">
-                <option disabled selected hidden>
-                    Choose page orientation
-                </option>
-                <option value="1">Portrait</option>
-                <option value="2">Landscape</option>
-            </select>
-        </div>
-
-        <div>
-            <label>Print Color</label>
-            <select v-model.number="form.print_color">
-                <option disabled selected hidden>Choose print color</option>
-                <option value="1">Black & White</option>
-                <option value="2">Color</option>
-            </select>
-        </div>
-
-        <div>
-            <label>Print Method</label>
-            <select v-model.number="form.print_method">
-                <option disabled selected hidden>Choose print method</option>
-                <option value="1">One-Sided</option>
-                <option value="2">Two-Sided</option>
-            </select>
-        </div>
-
-        <div>
-            <label>Paper Thickness</label>
-            <select v-model.number="form.paper_weight">
-                <option disabled selected hidden>Choose paper thickness</option>
-                <option value="0">70gsm Paper</option>
-                <option value="1">80gsm Paper</option>
-            </select>
-        </div>
-
-        <button type="submit">Submit</button>
-        <button type="reset" @click="reset">Reset</button>
     </form>
-    <Link as="button" :href="route('order.show', { order: order.order_id })"
-        >Next</Link
-    >
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
+import Navbar from "@/Layouts/Topbar/Navbar.vue";
+import PageTitle from "@/Layouts/Topbar/PageTitle.vue";
+import Title from "@/Layouts/Topbar/Title.vue";
+import Breadcrumb from "@/Layouts/Topbar/Breadcrumb.vue";
+import RightSide from "@/Layouts/Topbar/RightSide.vue";
 
 const page = usePage();
 
@@ -79,27 +151,36 @@ const form = useForm({
     paper_weight: null,
 });
 
+const canUpload = computed(() => form.files.length);
+const canProceed = computed(() => true);
+
 const upload = () => {
     form.post(route("order.file.store", { order: props.order.order_id }), {
-        onSuccess: () => form.reset("files"),
+        onSuccess: () => {
+            form.reset("files");
+            form.reset("pages_per_sheet");
+            form.reset("orientation");
+            form.reset("print_color");
+            form.reset("print_method");
+            form.reset("paper_weight");
+            canProceed = true;
+        },
     });
 };
 
 const addFiles = (event) => {
+    page.props.value.flash.success = false;
     for (const file of event.target.files) {
         form.files.push(file);
     }
 };
 
-const reset = () => form.reset("file");
+const reset = () => {
+    form.reset("files");
+    form.reset("pages_per_sheet");
+    form.reset("orientation");
+    form.reset("print_color");
+    form.reset("print_method");
+    form.reset("paper_weight");
+};
 </script>
-
-<style scoped>
-label {
-    margin-right: 2em;
-}
-
-div {
-    padding: 2px;
-}
-</style>

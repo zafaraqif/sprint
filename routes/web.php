@@ -24,9 +24,11 @@ Route::resource('account', AccountController::class)->only(['index', 'create', '
 
 // Resource Routes
 Route::resource('home', HomeController::class)->only('index');
-Route::resource('community', CommunityController::class)->only(['index', 'create', 'store']);
-Route::resource('service', ServiceController::class)->except('destroy');
-Route::resource('order', OrderController::class)->except('edit');
+Route::resource('community', CommunityController::class)->only(['index', 'create', 'store', 'show']);
+Route::resource('community.service', ServiceController::class)->only('create');
+Route::resource('service', ServiceController::class)->except(['create', 'show', 'destroy']);
+Route::resource('service.order', OrderController::class)->only('create');
+Route::resource('order', OrderController::class)->except(['create', 'edit']);
 Route::resource('order.file', FileController::class)->only(['index', 'create', 'store', 'show']);
 Route::resource('queue', QueueController::class)->only('index');
 Route::resource('order.payment', PaymentController::class)->only(['create']);
@@ -41,3 +43,4 @@ Route::put('complete/{order}', [OrderStatusController::class, 'completed']);
 Route::put('pickup/{order}', [OrderStatusController::class, 'pickup']);
 Route::put('open/{service}', [ServiceStatusController::class, 'open']);
 Route::put('close/{service}', [ServiceStatusController::class, 'close']);
+Route::put('service/{service}/change/{community}', [ServiceController::class, 'change']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Models\Community;
 use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
@@ -21,16 +22,21 @@ class ServiceController extends Controller
         $service = $user->service;
 
         if (!$user->service) {
-            return redirect('/service/create');
+            return redirect('/community');
         } else {
             $id = $service->service_id;
             return redirect('/service/' . $id . '/edit');
         }
     }
 
-    public function create()
+    public function create(Community $community)
     {
-        return inertia('Service/Create');
+        return inertia(
+            'Service/Create',
+            [
+                'community' => $community
+            ]
+        );
     }
 
     public function store(Request $request)
@@ -53,17 +59,23 @@ class ServiceController extends Controller
                 'charge_80gsm' => 'required|min:0',
             ])
         ]);
-        return redirect()->route('service.index')->with('success', 'Service was created!');
+
+        $service = Service::where('user_id', '=', $request->user_id)->first();
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        if (date("H:i:s") >= $request->start_time && date("H:i:s") <= $request->end_time) {
+            $service->service_status = 1;
+            $service->save();
+        } else {
+            $service->service_status = 0;
+            $service->save();
+        }
+
+        return redirect()->route('account.index')->with('success', 'Service Created!');
     }
 
     public function show(Service $service)
     {
-        return inertia(
-            'Service/Show',
-            [
-                'service' => $service
-            ]
-        );
+        //
     }
 
     public function edit(Service $service)
@@ -71,7 +83,8 @@ class ServiceController extends Controller
         return inertia(
             'Service/Edit',
             [
-                'service' => $service
+                'service' => $service,
+                'community' => $service->community
             ]
         );
     }
@@ -101,5 +114,12 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function change(Service $service, Community $community)
+    {
+        $service->community_id = $community->community_id;
+        $service->save();
+        return redirect('service/' . $service->service_id . '/edit')->with('success', 'Community changed!');
     }
 }

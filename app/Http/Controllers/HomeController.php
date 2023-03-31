@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 
 class HomeController extends Controller
 {
@@ -22,20 +23,13 @@ class HomeController extends Controller
             $user_service_id = 'user_id';
             $relationship = '>=';
             $total = Order::where($user_service_id, '=', $id)->get()->count();
-
-            $getService = array();
-            foreach (Order::where($user_service_id, '=', $id)->get() as $order)
-                array_push($getService, $order->service_id);
-            $services = Service::findMany(array_unique($getService));
+            $serviceId = Arr::pluck(Order::where($user_service_id, '=', $id)->get(), 'service_id');
+            $services = Service::findMany($serviceId);
         } elseif (Auth::user()->user_type == 2) {
-            if (Auth::user()->service == null) {
-                $id = null;
-            } else {
-                $id = Auth::user()->service->service_id;
-            }
+            Auth::user()->service == null ?  $id = null : $id = Auth::user()->service->service_id;
             $user_service_id = 'service_id';
             $relationship = '=';
-            $total = number_format((float)Order::where($user_service_id, '=', $id)->get()->sum('total_price'), 2, '.', '');
+            $total = number_format((float)Order::where($user_service_id, '=', $id)->where('order_status', '>=', '5')->get()->sum('total_price'), 2, '.', '');
             $services = null;
         }
 
@@ -57,6 +51,6 @@ class HomeController extends Controller
                 'pickups' => $pickups,
                 'services' => $services,
             ]
-        );
+        )->with('title', 'Home')->with('breadcrumb', 'Home');
     }
 }

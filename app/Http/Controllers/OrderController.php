@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -20,11 +21,7 @@ class OrderController extends Controller
         if (Auth::user()->user_type == 1) {
             $order = Order::where('user_id', '=', $user->user_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
         } elseif (Auth::user()->user_type == 2) {
-            if (Auth::user()->service == null) {
-                $order = null;
-            } else {
-                $order = Order::where('service_id', '=', $user->service->service_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
-            }
+            Auth::user()->service == null ? $order = null : $order = Order::where('service_id', '=', $user->service->service_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
         }
 
         return inertia(
@@ -35,9 +32,14 @@ class OrderController extends Controller
         );
     }
 
-    public function create()
+    public function create(Service $service)
     {
-        return inertia('Order/Create');
+        return inertia(
+            'Order/Create',
+            [
+                'service' => $service,
+            ]
+        );
     }
 
     public function store(Request $request)
@@ -84,7 +86,7 @@ class OrderController extends Controller
             $order->save();
         }
 
-        if ($order->order_status == null) {
+        if ($order->order_status === null) {
             return inertia(
                 'Order/Show',
                 [

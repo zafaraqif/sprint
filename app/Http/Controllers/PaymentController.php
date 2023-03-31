@@ -11,6 +11,6 @@ class PaymentController extends Controller
     {
         $order->order_status = 2;
         $order->save();
-        return redirect()->route('home.index')->with('success', 'Order pending!');
+        return redirect()->route('home.index')->with('success', 'Order successful! Pending for Sprinter\'s approval.');
     }
 }

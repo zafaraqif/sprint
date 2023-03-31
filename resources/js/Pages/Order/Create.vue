@@ -1,49 +1,64 @@
 <template>
-    <h1>Print Order</h1>
-    <form @submit.prevent="create">
-        <div>
-            <div>
-                <label>Service ID</label>
-                <input
-                    v-model.number="form.service_id"
-                    type="number"
-                    placeholder="Enter User ID"
-                />
-                <div v-if="form.errors.service_id">
-                    {{ form.errors.service_id }}
-                </div>
-            </div>
+    <Navbar>
+        <PageTitle>
+            <Title>3. Enter Order Details</Title>
+            <Breadcrumb
+                >Print Order &nbsp;/&nbsp;
+                <a href="/community">Community</a>&nbsp; / &nbsp;<a
+                    @click="back"
+                    >Sprinter</a
+                >
+                &nbsp;/&nbsp; <span>Order Details</span></Breadcrumb
+            >
+        </PageTitle>
+        <RightSide></RightSide>
+    </Navbar>
+    <div class="flex justify-between gap-4 mb-6">
+        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
+    </div>
 
-            <div>
-                <label>Pickup Date</label>
+    <form @submit.prevent="create" class="bg-white p-6 rounded-md shadow-sm">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-1">
+                <label class="block mb-1 text-gray-500">Pickup Date</label>
                 <input
                     v-model="form.order_pickup_date"
                     type="date"
-                    placeholder="Enter Pickup Date"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
                 <div v-if="form.errors.order_pickup_date">
                     {{ form.errors.order_pickup_date }}
                 </div>
             </div>
 
-            <div>
-                <label>Pickup Time</label>
+            <div class="col-span-1">
+                <label class="block mb-1 text-gray-500">Pickup Time</label>
                 <input
                     v-model="form.order_pickup_time"
                     type="time"
-                    placeholder="Enter pickup time"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
                 <div v-if="form.errors.order_pickup_time">
                     {{ form.errors.order_pickup_time }}
                 </div>
             </div>
 
-            <div class="mt-4">
+            <div class="flex justify-start gap-x-2 mt-4">
+                <Link
+                    href="#"
+                    @click="back"
+                    class="px-4 py-2 text-sm font-semibold border border-indigo-500 text-indigo-500 rounded-md"
+                    >Back</Link
+                >
                 <button
                     type="submit"
-                    class="px-4 py-2 bg-indigo-700 text-white rounded-md font-bold"
+                    class="px-4 py-2 bg-indigo-500 text-sm text-white rounded-md font-bold"
                 >
-                    Create Order
+                    Next
                 </button>
             </div>
         </div>
@@ -51,26 +66,25 @@
 </template>
 
 <script setup>
-import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import { useForm, usePage, Link } from "@inertiajs/inertia-vue3";
+import Navbar from "@/Layouts/Topbar/Navbar.vue";
+import PageTitle from "@/Layouts/Topbar/PageTitle.vue";
+import Title from "@/Layouts/Topbar/Title.vue";
+import Breadcrumb from "@/Layouts/Topbar/Breadcrumb.vue";
+import RightSide from "@/Layouts/Topbar/RightSide.vue";
+
+defineProps({
+    service: Object,
+});
 
 const page = usePage();
-
 const form = useForm({
     user_id: page.props.value.user.user_id,
-    service_id: null,
+    service_id: page.props.value.service.service_id,
     order_pickup_date: null,
     order_pickup_time: null,
 });
 
 const create = () => form.post(route("order.store"));
+const back = () => window.history.back();
 </script>
-
-<style scoped>
-label {
-    margin-right: 2em;
-}
-
-div {
-    padding: 2px;
-}
-</style>

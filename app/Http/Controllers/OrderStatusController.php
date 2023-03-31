@@ -39,7 +39,7 @@ class OrderStatusController extends Controller
     {
         $order->order_status = 5;
         $order->save();
-        return redirect()->back()->with('success', 'Order was completed!');
+        return redirect()->route('queue.index')->with('success', 'Order was completed!');
     }
 
     public function pickup(Order $order)

@@ -11,11 +11,12 @@ class AccountController extends Controller
     public function index()
     {
         (Auth::user()->user_type == 1) ? $service = null : $service = Auth::user()->service;
-
+        ($service == null) ? $community = null : $community = $service->community;
         return inertia(
             'Profile/Index',
             [
-                'service' => $service
+                'service' => $service,
+                'community' => $community
             ]
         );
     }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Community;
+use App\Models\Service;
+use Illuminate\Support\Facades\Auth;
 
 class CommunityController extends Controller
 {
@@ -15,10 +17,12 @@ class CommunityController extends Controller
 
     public function index()
     {
+        Auth::user()->user_type == 2 ? $service = Auth::user()->service : $service = null;
         return inertia(
             'Community/Index',
             [
-                'communities' => Community::all()
+                'communities' => Community::all(),
+                'service' => $service
             ]
         );
     }
@@ -42,9 +46,15 @@ class CommunityController extends Controller
         return redirect()->route('service.index')->with('success', 'Community was created!');
     }
 
-    public function show($id)
+    public function show(Community $community)
     {
-        //
+        $service = Service::where('community_id', '=', $community->community_id)->get();
+        return inertia(
+            'Sprinter/Show',
+            [
+                'services' => $service
+            ]
+        );
     }
 
     public function edit($id)
