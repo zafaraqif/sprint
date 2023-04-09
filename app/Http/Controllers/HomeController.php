@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -40,6 +41,19 @@ class HomeController extends Controller
         $orders = Order::where($user_service_id, '=', $id)->where('order_status', $relationship, 2)->where('order_status', '<=', 4)->orderBy('order_pickup_date')->orderBy('order_pickup_time')->get();
         $pickups = Order::where($user_service_id, '=', $id)->where('order_status', '=', 5)->orderBy('order_pickup_date')->orderBy('order_pickup_time')->get();
 
+        $ordersPickupTime = Arr::pluck($orders, 'order_pickup_time');
+        $pickupsPickupTime = Arr::pluck($pickups, 'order_pickup_time');
+        $timezone = 'Asia/Kuala_Lumpur';
+
+        foreach ($ordersPickupTime as $ot)
+            $ordersTime[] = Carbon::createFromTimeString($ot, $timezone);
+
+        foreach ($pickupsPickupTime as $pt)
+            $pickupsTime[] = Carbon::createFromTimeString($pt, $timezone);
+
+        isset($ordersTime) ?:  $ordersTime = null;
+        isset($pickupsTime) ?:  $pickupsTime = null;
+
         return inertia(
             'Home/Index',
             [
@@ -50,7 +64,9 @@ class HomeController extends Controller
                 'orders' => $orders,
                 'pickups' => $pickups,
                 'services' => $services,
+                'ordersTime' => $ordersTime,
+                'pickupsTime' => $pickupsTime,
             ]
-        )->with('title', 'Home')->with('breadcrumb', 'Home');
+        );
     }
 }

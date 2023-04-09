@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Community;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 
 class CommunityController extends Controller
 {
@@ -18,11 +19,18 @@ class CommunityController extends Controller
     public function index()
     {
         Auth::user()->user_type == 2 ? $service = Auth::user()->service : $service = null;
+        $community = Community::orderBy('community_name')->get();
+        $communityId = Arr::pluck($community, 'community_id');
+        foreach ($communityId as $id) {
+            $sprinter[] = Service::where('community_id', '=', $id)->where('service_status', '=', 1)->count();
+        }
+
         return inertia(
             'Community/Index',
             [
-                'communities' => Community::all(),
-                'service' => $service
+                'communities' => $community,
+                'service' => $service,
+                'sprinter' => $sprinter
             ]
         );
     }
@@ -48,7 +56,7 @@ class CommunityController extends Controller
 
     public function show(Community $community)
     {
-        $service = Service::where('community_id', '=', $community->community_id)->get();
+        $service = Service::where('community_id', '=', $community->community_id)->where('service_status', '=', 1)->get();
         return inertia(
             'Sprinter/Show',
             [

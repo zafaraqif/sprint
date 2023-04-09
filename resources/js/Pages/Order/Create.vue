@@ -25,11 +25,18 @@
         <div class="grid grid-cols-2 gap-4">
             <div class="col-span-1">
                 <label class="block mb-1 text-gray-500">Pickup Date</label>
-                <input
+                <select
                     v-model="form.order_pickup_date"
-                    type="date"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
-                />
+                >
+                    <option
+                        v-for="item in date"
+                        :value="item"
+                        class="text-gray-400 font-medium"
+                    >
+                        {{ item }}
+                    </option>
+                </select>
                 <div v-if="form.errors.order_pickup_date">
                     {{ form.errors.order_pickup_date }}
                 </div>
@@ -37,11 +44,18 @@
 
             <div class="col-span-1">
                 <label class="block mb-1 text-gray-500">Pickup Time</label>
-                <input
+                <select
                     v-model="form.order_pickup_time"
-                    type="time"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
-                />
+                >
+                    <option
+                        v-for="item in time"
+                        :value="item"
+                        class="text-gray-400 font-medium"
+                    >
+                        {{ item }}
+                    </option>
+                </select>
                 <div v-if="form.errors.order_pickup_time">
                     {{ form.errors.order_pickup_time }}
                 </div>
@@ -75,6 +89,8 @@ import RightSide from "@/Layouts/Topbar/RightSide.vue";
 
 defineProps({
     service: Object,
+    date: Array,
+    time: Array,
 });
 
 const page = usePage();

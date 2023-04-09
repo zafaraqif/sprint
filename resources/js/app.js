@@ -3,6 +3,7 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import MainLayout from "./Layouts/MainLayout.vue";
 import { ZiggyVue } from "ziggy";
 import { InertiaProgress } from "@inertiajs/progress";
+import moment from "moment";
 import "../css/app.css";
 
 InertiaProgress.init({

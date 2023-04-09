@@ -13,6 +13,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SearchController;
 
 // Auth Routes
 Route::get('login', [AuthController::class, 'create'])->name('login');
@@ -32,6 +33,7 @@ Route::resource('order', OrderController::class)->except(['create', 'edit']);
 Route::resource('order.file', FileController::class)->only(['index', 'create', 'store', 'show']);
 Route::resource('queue', QueueController::class)->only('index');
 Route::resource('order.payment', PaymentController::class)->only(['create']);
+Route::resource('search', SearchController::class)->only('store');
 
 // Custom Routes
 Route::get('/', [IndexController::class, 'index']);

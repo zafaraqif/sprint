@@ -2,7 +2,7 @@
     <div class="mt-3">
         <div
             v-if="flashSuccess"
-            class="-mt-1 w-auto bg-indigo-200 px-2 py-1 inline-flex justify-between text-indigo-700 font-semibold rounded-md text-sm"
+            class="-mt-1 w-auto bg-indigo-200 px-2 py-1 inline-flex justify-between text-indigo-700 shadow-md font-semibold rounded-md text-sm"
         >
             <div class="pr-2">
                 {{ flashSuccess }}
@@ -22,7 +22,7 @@
                 </svg>
             </div>
         </div>
-        <div class="inline-block px-4 text-white">
+        <div class="inline-block px-4 text-sm font-medium text-white">
             {{ user.name }}
         </div>
         <Link

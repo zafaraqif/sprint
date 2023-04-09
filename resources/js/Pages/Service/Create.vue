@@ -41,8 +41,41 @@
                     type="text"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.service_name">
+                <div
+                    v-if="form.errors.service_name"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.service_name }}
+                </div>
+            </div>
+
+            <div class="col-span-6">
+                <label class="block mb-1 text-gray-500">Pickup Address</label>
+                <input
+                    v-model="form.pickup_address"
+                    type="text"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
+                />
+                <div
+                    v-if="form.errors.pickup_address"
+                    class="mt-1 text-xs text-red-500"
+                >
+                    {{ form.errors.pickup_address }}
+                </div>
+            </div>
+
+            <div class="col-span-2">
+                <label class="block mb-1 text-gray-500">Contact number</label>
+                <input
+                    v-model="form.contact_number"
+                    type="text"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
+                />
+                <div
+                    v-if="form.errors.contact_number"
+                    class="mt-1 text-xs text-red-500"
+                >
+                    {{ form.errors.contact_number }}
                 </div>
             </div>
 
@@ -55,7 +88,10 @@
                     type="time"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.start_time">
+                <div
+                    v-if="form.errors.start_time"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.start_time }}
                 </div>
             </div>
@@ -67,7 +103,10 @@
                     type="time"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.end_time">
+                <div
+                    v-if="form.errors.end_time"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.end_time }}
                 </div>
             </div>
@@ -81,7 +120,10 @@
                     type="time"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.start_pickup_time">
+                <div
+                    v-if="form.errors.start_pickup_time"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.start_pickup_time }}
                 </div>
             </div>
@@ -95,32 +137,11 @@
                     type="time"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.end_pickup_time">
+                <div
+                    v-if="form.errors.end_pickup_time"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.end_pickup_time }}
-                </div>
-            </div>
-
-            <div class="col-span-6">
-                <label class="block mb-1 text-gray-500">Pickup Address</label>
-                <input
-                    v-model="form.pickup_address"
-                    type="text"
-                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
-                />
-                <div v-if="form.errors.pickup_address">
-                    {{ form.errors.pickup_address }}
-                </div>
-            </div>
-
-            <div class="col-span-2">
-                <label class="block mb-1 text-gray-500">Contact number</label>
-                <input
-                    v-model="form.contact_number"
-                    type="text"
-                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
-                />
-                <div v-if="form.errors.contact_number">
-                    {{ form.errors.contact_number }}
                 </div>
             </div>
 
@@ -132,7 +153,10 @@
                     min="1"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.page_limit">
+                <div
+                    v-if="form.errors.page_limit"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.page_limit }}
                 </div>
             </div>
@@ -148,7 +172,10 @@
                     min="0"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.price_bnw">
+                <div
+                    v-if="form.errors.price_bnw"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.price_bnw }}
                 </div>
             </div>
@@ -164,7 +191,10 @@
                     min="0"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.price_color">
+                <div
+                    v-if="form.errors.price_color"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.price_color }}
                 </div>
             </div>
@@ -180,7 +210,10 @@
                     min="0"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.charge_80gsm">
+                <div
+                    v-if="form.errors.charge_80gsm"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.charge_80gsm }}
                 </div>
             </div>

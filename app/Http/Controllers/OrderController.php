@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Service;
+use App\Models\File;
 use Illuminate\Support\Facades\Auth;
+use Facades\Label84\HoursHelper\HoursHelper;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -34,10 +37,18 @@ class OrderController extends Controller
 
     public function create(Service $service)
     {
+        $date[] = Carbon::now()->format('Y-m-d');
+        for ($i = 0; $i < 13; $i++) {
+            $nextDay = new Carbon(end($date));
+            array_push($date, $nextDay->addDay()->format('Y-m-d'));
+        }
+        $time = HoursHelper::create($service->start_pickup_time, $service->end_pickup_time, 15);
         return inertia(
             'Order/Create',
             [
                 'service' => $service,
+                'time' => $time,
+                'date' => $date
             ]
         );
     }
@@ -113,12 +124,15 @@ class OrderController extends Controller
     {
         $order->order_status = 6;
         $order->save();
-        return redirect()->back()->with('success', 'Order was collected!');
+        return redirect()->back()->with('success', 'Order #' . $order->order_id . ' was collected!');
     }
 
     public function destroy(Order $order)
     {
+        $file = File::where('order_id', '=', $order->order_id)->get();
+        foreach ($file as $f)
+            $f->delete();
         $order->delete();
-        return redirect()->back()->with('success', 'Order was deleted!');
+        return redirect('/home')->with('success', 'Order #' . $order->order_id . ' was cancelled!');
     }
 }

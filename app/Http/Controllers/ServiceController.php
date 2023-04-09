@@ -70,7 +70,7 @@ class ServiceController extends Controller
             $service->save();
         }
 
-        return redirect()->route('account.index')->with('success', 'Service Created!');
+        return redirect()->route('account.index')->with('success', 'Service was created!');
     }
 
     public function show(Service $service)
@@ -108,7 +108,7 @@ class ServiceController extends Controller
                 'charge_80gsm' => 'required|min:0',
             ])
         );
-        return redirect()->back()->with('success', 'Service was updated!');
+        return redirect()->back()->with('success', $service->service_name . ' was updated!');
     }
 
     public function destroy($id)

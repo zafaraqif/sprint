@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::table('files', function (Blueprint $table) {
             $table->foreignIdFor(\App\Models\Order::class, 'order_id')->constrained('orders', 'order_id')->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedSmallInteger('page_number');
+            $table->unsignedSmallInteger('page_number')->nullable();
             $table->unsignedTinyInteger('pages_per_sheet');
-            $table->unsignedSmallInteger('pages_to_print');
-            $table->unsignedSmallInteger('sheets_to_print');
+            $table->unsignedSmallInteger('pages_to_print')->nullable();
+            $table->unsignedSmallInteger('sheets_to_print')->nullable();
             $table->unsignedTinyInteger('orientation');
             $table->unsignedTinyInteger('print_color');
             $table->unsignedTinyInteger('print_method');
             $table->unsignedTinyInteger('paper_weight');
-            $table->string('file_path');
+            $table->string('file_path')->nullable();
         });
     }
 

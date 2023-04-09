@@ -53,7 +53,7 @@
             </div>
 
             <div class="col-span-2">
-                <label class="block mb-1 text-gray-500">Change Location?</label>
+                <label class="block mb-1 text-gray-500">New Location?</label>
                 <Link
                     class="w-full py-2 bg-indigo-500 text-white font-semibold rounded-md"
                     href="/community"
@@ -70,8 +70,43 @@
                     placeholder="Enter Service Name"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.service_name">
+                <div
+                    v-if="form.errors.service_name"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.service_name }}
+                </div>
+            </div>
+
+            <div class="col-span-6">
+                <label class="block mb-1 text-gray-500">Pickup Address</label>
+                <input
+                    v-model="form.pickup_address"
+                    type="text"
+                    placeholder="Enter pickup address"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
+                />
+                <div
+                    v-if="form.errors.pickup_address"
+                    class="mt-1 text-xs text-red-500"
+                >
+                    {{ form.errors.pickup_address }}
+                </div>
+            </div>
+
+            <div class="col-span-2">
+                <label class="block mb-1 text-gray-500">Contact Number</label>
+                <input
+                    v-model="form.contact_number"
+                    type="text"
+                    placeholder="Enter contact number"
+                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
+                />
+                <div
+                    v-if="form.errors.contact_number"
+                    class="mt-1 text-xs text-red-500"
+                >
+                    {{ form.errors.contact_number }}
                 </div>
             </div>
 
@@ -85,7 +120,10 @@
                     placeholder="Enter service start time"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.start_time">
+                <div
+                    v-if="form.errors.start_time"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.start_time }}
                 </div>
             </div>
@@ -98,7 +136,10 @@
                     placeholder="Enter service end time"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.end_time">
+                <div
+                    v-if="form.errors.end_time"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.end_time }}
                 </div>
             </div>
@@ -113,7 +154,10 @@
                     placeholder="Enter start pickup time"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.start_pickup_time">
+                <div
+                    v-if="form.errors.start_pickup_time"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.start_pickup_time }}
                 </div>
             </div>
@@ -128,34 +172,11 @@
                     placeholder="Enter end pickup time"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.end_pickup_time">
+                <div
+                    v-if="form.errors.end_pickup_time"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.end_pickup_time }}
-                </div>
-            </div>
-
-            <div class="col-span-6">
-                <label class="block mb-1 text-gray-500">Pickup Address</label>
-                <input
-                    v-model="form.pickup_address"
-                    type="text"
-                    placeholder="Enter pickup address"
-                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
-                />
-                <div v-if="form.errors.pickup_address">
-                    {{ form.errors.pickup_address }}
-                </div>
-            </div>
-
-            <div class="col-span-2">
-                <label class="block mb-1 text-gray-500">Contact Number</label>
-                <input
-                    v-model="form.contact_number"
-                    type="text"
-                    placeholder="Enter contact number"
-                    class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
-                />
-                <div v-if="form.errors.contact_number">
-                    {{ form.errors.contact_number }}
                 </div>
             </div>
 
@@ -168,14 +189,17 @@
                     placeholder="Enter print page limit"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.page_limit">
+                <div
+                    v-if="form.errors.page_limit"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.page_limit }}
                 </div>
             </div>
 
             <div class="col-span-2">
                 <label class="block mb-1 text-gray-500"
-                    >Print Price (B&W)</label
+                    >B&W Print Price (RM)</label
                 >
                 <input
                     v-model="form.price_bnw"
@@ -185,14 +209,17 @@
                     placeholder="Enter price (RM)"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.price_bnw">
+                <div
+                    v-if="form.errors.price_bnw"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.price_bnw }}
                 </div>
             </div>
 
             <div class="col-span-2">
                 <label class="block mb-1 text-gray-500"
-                    >Print Price (Color)</label
+                    >Color Print Price (RM)</label
                 >
                 <input
                     v-model="form.price_color"
@@ -202,14 +229,17 @@
                     placeholder="Enter price (RM)"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.price_color">
+                <div
+                    v-if="form.errors.price_color"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.price_color }}
                 </div>
             </div>
 
             <div class="col-span-2">
                 <label class="block mb-1 text-gray-500"
-                    >80gsm Paper Extra Charges</label
+                    >80gsm Paper Charge (RM)</label
                 >
                 <input
                     v-model="form.charge_80gsm"
@@ -219,7 +249,10 @@
                     placeholder="Enter price (RM)"
                     class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                 />
-                <div v-if="form.errors.charge_80gsm">
+                <div
+                    v-if="form.errors.charge_80gsm"
+                    class="mt-1 text-xs text-red-500"
+                >
                     {{ form.errors.charge_80gsm }}
                 </div>
             </div>

@@ -1,26 +1,24 @@
 <template>
-    <div class="bg-gray-50 flex justify-between px-12 my-4">
-        <div>
-            <a href="/home">
-                <img src="/img/sprint-logo.png" class="w-32" />
+    <div class="bg-white flex justify-between px-16 py-6 shadow-sm">
+        <div class="inline">
+            <a href="/">
+                <img src="/img/sprint-logo.png" class="h-10" />
             </a>
         </div>
-        <div class="flex justify-between gap-x-4">
+        <div class="mt-3">
             <Link
                 href="/login"
-                as="button"
-                class="px-4 py-2 text-md font-semibold bg-indigo-500 text-white rounded-md"
+                class="mr-2 px-4 py-2 text-md font-semibold bg-indigo-500 text-white rounded-md"
                 >Login</Link
             >
             <Link
                 href="/account/create"
-                as="button"
                 class="px-4 py-2 text-md font-semibold border border-indigo-500 text-indigo-600 rounded-md"
                 >Register</Link
             >
         </div>
     </div>
-    <div class="bg-white h-screen">
+    <div>
         <slot></slot>
     </div>
 </template>
