@@ -221,7 +221,7 @@
             <div class="mt-4 col-span-2">
                 <button
                     type="submit"
-                    class="px-4 py-2 bg-indigo-500 text-sm text-white rounded-md font-bold"
+                    class="px-4 py-2 bg-indigo-500 text-sm text-white rounded-md font-semibold"
                 >
                     Create Service
                 </button>

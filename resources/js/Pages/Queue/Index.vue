@@ -12,16 +12,17 @@
         <thead>
             <tr class="border-b border-gray-200">
                 <th class="text-md font-semibold p-6">Order ID</th>
-                <th class="text-md font-semibold p-6">Pickup Date</th>
-                <th class="text-md font-semibold p-6">Pickup Time</th>
-                <th class="text-md font-semibold p-6">Total Price</th>
+                <th class="text-md font-semibold p-6">Pickup Date & Time</th>
+                <th class="text-md font-semibold p-6">File(s)</th>
+                <th class="text-md font-semibold p-6">Page(s)</th>
+                <th class="text-md font-semibold p-6">Sheet(s)</th>
                 <th class="text-md font-semibold p-6">Order Status</th>
                 <th class="text-md font-semibold p-6">Action</th>
             </tr>
         </thead>
         <tbody v-if="orders == 0">
             <tr class="text-center">
-                <td class="p-6 text-gray-500 font-semibold" colspan="6">
+                <td class="p-6 text-gray-500 font-semibold" colspan="7">
                     No orders yet
                 </td>
             </tr>
@@ -30,12 +31,18 @@
             <tr class="border-b border-gray-100">
                 <td class="p-6 font-semibold">#{{ order.order_id }}</td>
                 <td class="p-6">
-                    {{ order.order_pickup_date }}
+                    {{ moment(order.order_pickup_date).format("DD MMM") }},
+                    {{ moment(times[index]).format("hh:mmA") }}
                 </td>
                 <td class="p-6">
-                    {{ order.order_pickup_time }}
+                    {{ order.file_count }}
                 </td>
-                <td class="p-6">RM{{ order.total_price }}</td>
+                <td class="p-6">
+                    {{ order.print_page_count }}
+                </td>
+                <td class="p-6">
+                    {{ order.print_sheets_count }}
+                </td>
                 <td class="p-6 text-sm" v-if="order.order_status === 0">
                     <span
                         class="bg-red-100 text-red-700 px-2 py-1 rounded-md font-semibold"
@@ -108,7 +115,7 @@
                         v-if="order.order_status === 3"
                         :href="'/cancel/' + order.order_id"
                         method="put"
-                        class="px-3 py-2 border border-red-500 text-red-500 rounded-md text-sm font-semibold text-center"
+                        class="px-3 py-2 bg-indigo-100 text-indigo-500 rounded-md text-sm font-semibold text-center"
                         >Cancel</Link
                     >
                     <Link
@@ -141,5 +148,18 @@ import RightSide from "@/Layouts/Topbar/RightSide.vue";
 const props = defineProps({
     orders: Object,
     files: Array,
+    times: Array,
 });
+</script>
+
+<script>
+import moment from "moment";
+
+export default {
+    data() {
+        return {
+            moment: moment,
+        };
+    },
+};
 </script>

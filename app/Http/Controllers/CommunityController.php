@@ -25,6 +25,10 @@ class CommunityController extends Controller
             $sprinter[] = Service::where('community_id', '=', $id)->where('service_status', '=', 1)->count();
         }
 
+        if ($communityId == null) {
+            $sprinter = 0;
+        }
+
         return inertia(
             'Community/Index',
             [
@@ -51,7 +55,7 @@ class CommunityController extends Controller
                 'state' => 'required',
             ])
         ]);
-        return redirect()->route('service.index')->with('success', 'Community was created!');
+        return redirect()->route('community.index')->with('success', 'Community was created!');
     }
 
     public function show(Community $community)
@@ -63,20 +67,5 @@ class CommunityController extends Controller
                 'services' => $service
             ]
         );
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }

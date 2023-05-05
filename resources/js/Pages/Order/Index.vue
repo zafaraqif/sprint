@@ -13,28 +13,63 @@
             <thead>
                 <tr class="border-b border-gray-200">
                     <th class="text-md font-semibold p-6">Order ID</th>
-                    <th class="text-md font-semibold p-6">Pickup Date</th>
-                    <th class="text-md font-semibold p-6">Pickup Time</th>
+                    <th class="text-md font-semibold p-6">
+                        Pickup Date & Time
+                    </th>
+                    <th v-if="isCustomer" class="text-md font-semibold p-6">
+                        Sprinter
+                    </th>
+                    <th v-if="!isCustomer" class="text-md font-semibold p-6">
+                        File(s)
+                    </th>
+                    <th v-if="!isCustomer" class="text-md font-semibold p-6">
+                        Page(s)
+                    </th>
+                    <th v-if="!isCustomer" class="text-md font-semibold p-6">
+                        Sheet(s)
+                    </th>
                     <th class="text-md font-semibold p-6">Total Price</th>
                     <th class="text-md font-semibold p-6">Order Status</th>
                     <th class="text-md font-semibold p-6">Action</th>
                 </tr>
             </thead>
-            <tbody v-if="orders == 0">
+            <tbody v-if="orders === null">
                 <tr class="text-center">
-                    <td class="p-6 text-gray-500 font-semibold" colspan="6">
+                    <td class="p-6 text-gray-500 font-semibold" colspan="8">
                         No orders yet
                     </td>
                 </tr>
             </tbody>
-            <tbody v-for="order in orders" :key="order.order_id">
+            <tbody
+                v-for="(order, index) in orders"
+                :key="{ orders: order.order_id }"
+            >
                 <tr class="border-b border-gray-100">
                     <td class="p-6 font-semibold">#{{ order.order_id }}</td>
                     <td class="p-6">
-                        {{ order.order_pickup_date }}
+                        {{ moment(order.order_pickup_date).format("DD MMM") }},
+                        {{ moment(times[index]).format("hh:mmA") }}
                     </td>
-                    <td class="p-6">
-                        {{ order.order_pickup_time }}
+                    <table
+                        v-if="isCustomer"
+                        v-for="service in services"
+                        :key="{ services: service.service_id }"
+                    >
+                        <td
+                            v-if="service.service_id === order.service_id"
+                            class="p-6"
+                        >
+                            {{ service.service_name }}
+                        </td>
+                    </table>
+                    <td v-if="!isCustomer" class="p-6">
+                        {{ order.file_count }}
+                    </td>
+                    <td v-if="!isCustomer" class="p-6">
+                        {{ order.print_page_count }}
+                    </td>
+                    <td v-if="!isCustomer" class="p-6">
+                        {{ order.print_sheets_count }}
                     </td>
                     <td class="p-6">RM{{ order.total_price }}</td>
                     <td class="p-6 text-sm" v-if="order.order_status === 0">
@@ -102,7 +137,7 @@
                             :href="
                                 route('order.show', { order: order.order_id })
                             "
-                            class="px-3 py-2 border border-indigo-500 text-indigo-500 rounded-md text-sm font-semibold text-center"
+                            class="px-4 py-2 bg-indigo-500 text-white rounded-md text-sm font-semibold text-center"
                         >
                             View Order
                         </Link>
@@ -114,13 +149,32 @@
 </template>
 
 <script setup>
-import { Link } from "@inertiajs/inertia-vue3";
+import { computed } from "vue";
+import { Link, usePage } from "@inertiajs/inertia-vue3";
 import Navbar from "@/Layouts/Topbar/Navbar.vue";
 import PageTitle from "@/Layouts/Topbar/PageTitle.vue";
 import Title from "@/Layouts/Topbar/Title.vue";
 import Breadcrumb from "@/Layouts/Topbar/Breadcrumb.vue";
 import RightSide from "@/Layouts/Topbar/RightSide.vue";
+
 defineProps({
-    orders: Object,
+    orders: Array,
+    times: Array,
+    services: Array,
 });
+
+const page = usePage();
+const isCustomer = computed(() => page.props.value.user.user_type == 1);
+</script>
+
+<script>
+import moment from "moment";
+
+export default {
+    data() {
+        return {
+            moment: moment,
+        };
+    },
+};
 </script>

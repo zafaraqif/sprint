@@ -28,6 +28,7 @@ return new class extends Migration
             $table->unsignedDecimal('price_bnw')->nullable();
             $table->unsignedDecimal('price_color')->nullable();
             $table->unsignedDecimal('charge_80gsm')->nullable();
+            $table->unsignedTinyInteger('override_service_status')->nullable();
         });
     }
 

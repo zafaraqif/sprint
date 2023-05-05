@@ -29,10 +29,10 @@ Route::resource('community', CommunityController::class)->only(['index', 'create
 Route::resource('community.service', ServiceController::class)->only('create');
 Route::resource('service', ServiceController::class)->except(['create', 'show', 'destroy']);
 Route::resource('service.order', OrderController::class)->only('create');
-Route::resource('order', OrderController::class)->except(['create', 'edit']);
+Route::resource('order', OrderController::class)->except(['edit', 'destroy']);
 Route::resource('order.file', FileController::class)->only(['index', 'create', 'store', 'show']);
+Route::resource('payment', PaymentController::class)->only('store')->middleware('cors');
 Route::resource('queue', QueueController::class)->only('index');
-Route::resource('order.payment', PaymentController::class)->only(['create']);
 Route::resource('search', SearchController::class)->only('store');
 
 // Custom Routes
@@ -46,3 +46,6 @@ Route::put('pickup/{order}', [OrderStatusController::class, 'pickup']);
 Route::put('open/{service}', [ServiceStatusController::class, 'open']);
 Route::put('close/{service}', [ServiceStatusController::class, 'close']);
 Route::put('service/{service}/change/{community}', [ServiceController::class, 'change']);
+Route::post('checkout/{order}', [PaymentController::class, 'checkout'])->name('checkout');
+Route::get('success/{order}', [PaymentController::class, 'success'])->name('checkout.success');
+Route::get('failed/{order}', [PaymentController::class, 'failed'])->name('checkout.failed');

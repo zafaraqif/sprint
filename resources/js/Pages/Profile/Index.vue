@@ -6,16 +6,16 @@
         </PageTitle>
         <RightSide></RightSide>
     </Navbar>
-    <div class="flex gap-4">
+    <div class="flex items-start gap-4">
         <div class="w-1/2 flex flex-col gap-4">
             <div class="p-6 bg-white rounded-lg shadow-sm">
                 <div class="text-xl font-semibold">Account Details</div>
-                <div class="flex justify-start gap-x-32">
-                    <div>
+                <div class="grid grid-cols-2">
+                    <div class="col-span-1">
                         <div class="mt-4 text-xs text-gray-400">Email</div>
                         <div class="text-md font-regular">{{ user.email }}</div>
                     </div>
-                    <div>
+                    <div class="col-span-1">
                         <div class="mt-4 text-xs text-gray-400">
                             Phone Number
                         </div>
@@ -29,10 +29,12 @@
                 <div class="text-xl font-semibold">Change Password</div>
                 <form
                     @submit.prevent="update"
-                    class="grid grid-cols-1 gap-4 mt-6"
+                    class="grid grid-cols-1 gap-4 mt-4"
                 >
                     <div class="col-span-1">
-                        <label for="password" class="block mb-1 text-gray-500"
+                        <label
+                            for="password"
+                            class="block mb-1 text-gray-500 text-sm"
                             >New Password</label
                         >
                         <input
@@ -48,7 +50,7 @@
                     <div class="col-span-1">
                         <label
                             for="password_confirmation"
-                            class="block mb-1 text-gray-500"
+                            class="block mb-1 text-gray-500 text-sm"
                             >Confirm Password</label
                         >
                         <input
@@ -61,7 +63,7 @@
                     <div class="col-span-1">
                         <button
                             type="submit"
-                            class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-md text-sm font-semibold"
+                            class="mt-2 px-4 py-2 bg-indigo-500 text-white rounded-md text-sm font-semibold"
                         >
                             Change Password
                         </button>
@@ -109,58 +111,68 @@
                         {{ service.pickup_address }}
                     </div>
                 </div>
-                <div class="mt-4 font-semibold">Service Duration</div>
-                <div class="flex justify-start gap-x-28">
-                    <div>
+                <div
+                    class="flex justify-between mt-4 border-t border-gray-100"
+                ></div>
+                <div class="mt-4 font-semibold text-indigo-500">
+                    Service Duration
+                </div>
+                <div class="grid grid-cols-2 justify-start">
+                    <div class="col-span-1">
                         <div class="mt-2 text-xs text-gray-400">
                             Operational Hours
                         </div>
-                        <div class="text-md font-regular">
+                        <div class="text-md font-semibold">
                             {{ service.start_time }} -
                             {{ service.end_time }}
                         </div>
                     </div>
-                    <div>
+                    <div class="col-span-1">
                         <div class="mt-2 text-xs text-gray-400">
                             Pickup Hours
                         </div>
-                        <div class="text-md font-regular">
+                        <div class="text-md font-semibold">
                             {{ service.start_pickup_time }} -
                             {{ service.end_pickup_time }}
                         </div>
                     </div>
                 </div>
-                <div class="mt-4 font-semibold">Pricing & Limit</div>
-                <div class="flex justify-between">
-                    <div>
+                <div
+                    class="flex justify-between mt-4 border-t border-gray-100"
+                ></div>
+                <div class="mt-4 font-semibold text-indigo-500">
+                    Pricing & Limit
+                </div>
+                <div class="grid grid-cols-2 justify-between">
+                    <div class="col-span-1">
                         <div class="mt-2 text-xs text-gray-400">
                             B&W (per page)
                         </div>
-                        <div class="text-md font-regular">
+                        <div class="text-md font-semibold">
                             RM{{ service.price_bnw }}
                         </div>
                     </div>
-                    <div>
+                    <div class="col-span-1">
                         <div class="mt-2 text-xs text-gray-400">
                             Color (per page)
                         </div>
-                        <div class="text-md font-regular">
+                        <div class="text-md font-semibold">
                             RM{{ service.price_color }}
                         </div>
                     </div>
-                    <div>
+                    <div class="col-span-1">
                         <div class="mt-2 text-xs text-gray-400">
                             80gsm Paper (per sheet)
                         </div>
-                        <div class="text-md font-regular">
+                        <div class="text-md font-semibold">
                             RM{{ service.charge_80gsm }}
                         </div>
                     </div>
-                    <div>
+                    <div class="col-span-1">
                         <div class="mt-2 text-xs text-gray-400">
                             Print Page Limit
                         </div>
-                        <div class="text-md font-regular">
+                        <div class="text-md font-semibold">
                             {{ service.page_limit }}
                         </div>
                     </div>

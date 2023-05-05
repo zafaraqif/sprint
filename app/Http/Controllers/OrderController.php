@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\File;
 use Illuminate\Support\Facades\Auth;
 use Facades\Label84\HoursHelper\HoursHelper;
+use Illuminate\Support\Arr;
 use Carbon\Carbon;
 
 class OrderController extends Controller
@@ -21,16 +22,50 @@ class OrderController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if (Auth::user()->user_type == 1) {
-            $order = Order::where('user_id', '=', $user->user_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
-        } elseif (Auth::user()->user_type == 2) {
-            Auth::user()->service == null ? $order = null : $order = Order::where('service_id', '=', $user->service->service_id)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
+        if ($user->user_type == 1) {
+            $orders = Order::where('user_id', '=', $user->user_id)->get();
+
+            if (count($orders) !== 0) {
+                $order = Order::where('user_id', '=', $user->user_id)->where('order_status', '!=', null)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
+                $serviceId = Arr::pluck($order, 'service_id');
+                $service = Service::findMany($serviceId);
+            } else {
+                $order = null;
+                $service = null;
+            }
+        } elseif ($user->user_type == 2) {
+            if ($user->service !== null) {
+                $orders = Order::where('service_id', '=', $user->service->service_id)->get();
+            } else {
+                $orders = [];
+            }
+
+
+            if (count($orders) !== 0) {
+                $order = Order::where('service_id', '=', $user->service->service_id)->where('order_status', '!=', null)->orderBy('order_pickup_date', 'desc')->orderBy('order_pickup_time', 'desc')->get();
+            } else {
+                $order = null;
+            }
+
+            $service = null;
+        }
+
+        if ($order === null) {
+            $time = null;
+        } else {
+            $pickupTime = Arr::pluck($order, 'order_pickup_time');
+            $timezone = 'Asia/Kuala_Lumpur';
+
+            foreach ($pickupTime as $t)
+                $time[] = Carbon::createFromTimeString($t, $timezone);
         }
 
         return inertia(
             'Order/Index',
             [
-                'orders' => $order
+                'orders' => $order,
+                'times' => $time,
+                'services' => $service,
             ]
         );
     }
@@ -125,14 +160,5 @@ class OrderController extends Controller
         $order->order_status = 6;
         $order->save();
         return redirect()->back()->with('success', 'Order #' . $order->order_id . ' was collected!');
-    }
-
-    public function destroy(Order $order)
-    {
-        $file = File::where('order_id', '=', $order->order_id)->get();
-        foreach ($file as $f)
-            $f->delete();
-        $order->delete();
-        return redirect('/home')->with('success', 'Order #' . $order->order_id . ' was cancelled!');
     }
 }

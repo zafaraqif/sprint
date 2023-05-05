@@ -20,6 +20,9 @@ return new class extends Migration
             $table->time('order_pickup_time')->nullable();
             $table->unsignedDecimal('total_price')->nullable();
             $table->unsignedTinyInteger('order_status')->nullable();
+            $table->unsignedSmallInteger('file_count')->nullable();
+            $table->unsignedSmallInteger('print_page_count')->nullable();
+            $table->unsignedSmallInteger('print_sheets_count')->nullable();
         });
     }
 

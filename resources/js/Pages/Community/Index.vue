@@ -23,11 +23,11 @@
         <RightSide></RightSide>
     </Navbar>
     <div v-if="isCustomer" class="flex justify-between gap-4 mb-6">
-        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-full"></div>
     </div>
     <div v-else-if="service == null" class="flex justify-between gap-4 mb-6">
         <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\File;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
+use Carbon\Carbon;
 
 class QueueController extends Controller
 {
@@ -25,17 +27,21 @@ class QueueController extends Controller
         foreach ($getOrderId as $g)
             $fileCount[] = File::where('order_id', '=', $g)->get()->count();
 
+        $pickupTime = Arr::pluck($orders, 'order_pickup_time');
+        $timezone = 'Asia/Kuala_Lumpur';
+
+        foreach ($pickupTime as $t)
+            $time[] = Carbon::createFromTimeString($t, $timezone);
+
+        isset($time) ?:  $time = null;
 
         return inertia(
             'Queue/Index',
             [
                 'orders' => $orders,
-                'files' => $fileCount
+                'files' => $fileCount,
+                'times' => $time,
             ]
         );
-    }
-
-    public function show()
-    {
     }
 }

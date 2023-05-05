@@ -12,11 +12,11 @@
         <RightSide></RightSide>
     </Navbar>
     <div class="flex justify-between gap-4 mb-6">
-        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-full"></div>
     </div>
     <form @submit.prevent="upload" class="bg-white p-6 rounded-md shadow-sm">
         <div class="font-medium text-gray-400 mb-2">
@@ -154,14 +154,14 @@
                         </button>
                         <div
                             v-if="!canUpload || form.counter <= 0"
-                            class="px-4 py-2 border border-gray-400 text-sm text-gray-400 rounded-md font-semibold"
+                            class="px-4 py-2 bg-white text-sm text-gray-400 rounded-md font-semibold"
                         >
                             Reset
                         </div>
                         <button
                             v-else
                             @click="reset"
-                            class="px-4 py-2 text-sm border border-indigo-500 text-indigo-500 font-semibold rounded-md"
+                            class="px-4 py-2 text-sm bg-indigo-100 text-indigo-500 font-semibold rounded-md"
                         >
                             Reset
                         </button>
@@ -170,7 +170,7 @@
                         <Link
                             :href="'/order/' + order.order_id"
                             method="delete"
-                            class="px-4 py-2 border border-indigo-500 text-sm text-indigo-500 rounded-md font-semibold"
+                            class="px-4 py-2 bg-indigo-100 text-sm text-indigo-500 rounded-md font-semibold"
                             >Cancel</Link
                         >
 

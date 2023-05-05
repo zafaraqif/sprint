@@ -14,11 +14,11 @@
         <RightSide></RightSide>
     </Navbar>
     <div class="flex justify-between gap-4 mb-6">
-        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-500 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
-        <div class="w-full h-2 bg-indigo-100 rounded-sm"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-500 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-full"></div>
+        <div class="w-full h-2 bg-indigo-100 rounded-full"></div>
     </div>
 
     <form @submit.prevent="create" class="bg-white p-6 rounded-md shadow-sm">
@@ -65,7 +65,7 @@
                 <Link
                     href="#"
                     @click="back"
-                    class="px-4 py-2 text-sm font-semibold border border-indigo-500 text-indigo-500 rounded-md"
+                    class="px-4 py-2 text-sm font-semibold bg-indigo-100 text-indigo-500 rounded-md"
                     >Back</Link
                 >
                 <button

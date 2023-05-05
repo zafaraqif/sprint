@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Service;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use Carbon\Carbon;
@@ -26,11 +27,14 @@ class HomeController extends Controller
             $total = Order::where($user_service_id, '=', $id)->get()->count();
             $serviceId = Arr::pluck(Order::where($user_service_id, '=', $id)->get(), 'service_id');
             $services = Service::findMany($serviceId);
+            $payments = null;
         } elseif (Auth::user()->user_type == 2) {
             Auth::user()->service == null ?  $id = null : $id = Auth::user()->service->service_id;
             $user_service_id = 'service_id';
             $relationship = '=';
             $total = number_format((float)Order::where($user_service_id, '=', $id)->where('order_status', '>=', '5')->get()->sum('total_price'), 2, '.', '');
+            $orderId = Arr::pluck(Order::where($user_service_id, '=', $id)->get(), 'order_id');
+            $payments = Payment::whereIn('order_id', $orderId)->get();
             $services = null;
         }
 
@@ -64,6 +68,7 @@ class HomeController extends Controller
                 'orders' => $orders,
                 'pickups' => $pickups,
                 'services' => $services,
+                'payments' => $payments,
                 'ordersTime' => $ordersTime,
                 'pickupsTime' => $pickupsTime,
             ]

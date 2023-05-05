@@ -178,10 +178,16 @@
                         </div>
                         <div class="mt-2 flex justify-start gap-x-6">
                             <div>
-                                <div class="text-xs text-gray-400">
-                                    Contact Number
+                                <div class="text-xs text-gray-400">Price</div>
+                                <div class="text-sm font-regular">
+                                    RM{{ o.total_price }}
                                 </div>
-                                <div class="text-md font-regular">
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-400">
+                                    Contact No
+                                </div>
+                                <div class="text-sm font-regular">
                                     {{ s.contact_number }}
                                 </div>
                             </div>
@@ -189,7 +195,7 @@
                                 <div class="text-xs text-gray-400">
                                     Pickup Address
                                 </div>
-                                <div class="text-md font-regular">
+                                <div class="text-sm font-regular">
                                     {{ s.pickup_address }}
                                 </div>
                             </div>
@@ -197,12 +203,82 @@
                     </div>
                 </div>
                 <div v-if="!isCustomer">
-                    <div class="mt-6 text-indigo-500 font-semibold text-sm">
+                    <div class="mt-4 text-indigo-500 font-semibold text-sm">
                         Order Details
                     </div>
-                    <div class="mt-2 text-xs text-gray-400">Price</div>
-                    <div class="text-md font-regular">
-                        RM{{ o.total_price }}
+                    <div class="grid grid-cols-4">
+                        <div class="col-span-1">
+                            <div class="mt-2 text-xs text-gray-400">
+                                Number of File(s)
+                            </div>
+                            <div class="text-sm font-regular">
+                                {{ o.file_count }}
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <div class="mt-2 text-xs text-gray-400">
+                                Page(s) to Print
+                            </div>
+                            <div class="text-sm font-regular">
+                                {{ o.print_page_count }}
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <div class="mt-2 text-xs text-gray-400">
+                                Sheet(s) to Print
+                            </div>
+                            <div class="text-sm font-regular">
+                                {{ o.print_sheets_count }}
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <div class="mt-2 text-xs text-gray-400">Price</div>
+                            <div class="text-sm font-regular">
+                                RM{{ o.total_price }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-indigo-500 font-semibold text-sm">
+                        Payment Details
+                    </div>
+                    <div v-for="p in payments" :key="{ payments: p.order_id }">
+                        <div
+                            v-if="p.order_id === o.order_id"
+                            class="grid grid-cols-2"
+                        >
+                            <div class="col-span-1">
+                                <div class="mt-2 text-xs text-gray-400">
+                                    Payment Method
+                                </div>
+                                <div
+                                    v-if="p.payment_type === 1"
+                                    class="text-sm font-regular"
+                                >
+                                    Full Payment
+                                </div>
+                                <div
+                                    v-if="p.payment_type === 2"
+                                    class="text-sm font-regular"
+                                >
+                                    Deposit
+                                </div>
+                                <div
+                                    v-if="p.payment_type === 3"
+                                    class="text-sm font-regular"
+                                >
+                                    Cash on Delivery
+                                </div>
+                            </div>
+                            <div class="col-span-1">
+                                <div class="mt-2 text-xs text-gray-400">
+                                    Remaining Payment
+                                </div>
+                                <div class="text-sm font-regular">
+                                    RM{{ p.remaining_payment }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div
@@ -212,7 +288,7 @@
                         <div class="text-xs text-gray-400">
                             Pickup Date & Time
                         </div>
-                        <div class="text-lg font-semibold">
+                        <div class="text-md font-semibold">
                             {{ moment(o.order_pickup_date).format("DD MMM") }},
                             {{ moment(ordersTime[index]).format("hh:mmA") }}
                         </div>
@@ -228,18 +304,18 @@
                             v-if="o.order_status < 4"
                             :href="'/cancel/' + o.order_id"
                             method="put"
-                            class="px-4 py-2 text-sm font-semibold rounded-md text-indigo-500"
+                            class="px-2 py-2 text-sm font-semibold rounded-md text-indigo-500"
                             >Cancel Order</Link
                         >
                         <span
                             v-else
-                            class="px-4 py-2 text-sm font-semibold border border-gray-300 text-gray-300 rounded-md"
+                            class="px-2 py-2 text-sm font-semibold text-gray-300 rounded-md"
                         >
                             Cancel Order
                         </span>
                     </div>
-                    <div v-if="!isCustomer" class="mt-2">
-                        <div class="flex gap-x-2">
+                    <div v-if="!isCustomer">
+                        <div class="flex gap-x-2 mt-1">
                             <Link
                                 v-if="o.order_status < 4"
                                 v-bind:href="'/approve/' + o.order_id"
@@ -251,8 +327,13 @@
                                 v-if="o.order_status < 4"
                                 v-bind:href="'/reject/' + o.order_id"
                                 method="put"
-                                class="px-4 py-2 text-sm font-semibold border border-indigo-500 text-indigo-500 rounded-md"
+                                class="px-4 py-2 text-sm font-semibold bg-indigo-100 text-indigo-500 rounded-md"
                                 >Reject</Link
+                            >
+                            <Link
+                                :href="'/order/' + o.order_id"
+                                class="pl-2 py-2 text-sm font-semibold rounded-md text-indigo-500"
+                                >View Order</Link
                             >
                         </div>
                     </div>
@@ -296,9 +377,17 @@
                         <div class="flex justify-start gap-x-6">
                             <div>
                                 <div class="mt-2 text-xs text-gray-400">
-                                    Contact Number
+                                    Price
                                 </div>
-                                <div class="text-md font-regular">
+                                <div class="text-sm font-regular">
+                                    RM{{ p.total_price }}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="mt-2 text-xs text-gray-400">
+                                    Contact No
+                                </div>
+                                <div class="text-sm font-regular">
                                     {{ s.contact_number }}
                                 </div>
                             </div>
@@ -306,7 +395,7 @@
                                 <div class="mt-2 text-xs text-gray-400">
                                     Pickup Location
                                 </div>
-                                <div class="text-md font-regular">
+                                <div class="text-sm font-regular">
                                     {{ s.pickup_address }}
                                 </div>
                             </div>
@@ -317,9 +406,82 @@
                     <div class="mt-4 text-indigo-500 font-semibold text-sm">
                         Order Details
                     </div>
-                    <div class="mt-2 text-xs text-gray-400">Price</div>
-                    <div class="text-md font-regular">
-                        RM{{ p.total_price }}
+                    <div class="grid grid-cols-4">
+                        <div class="col-span-1">
+                            <div class="mt-2 text-xs text-gray-400">
+                                Number of File(s)
+                            </div>
+                            <div class="text-sm font-regular">
+                                {{ p.file_count }}
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <div class="mt-2 text-xs text-gray-400">
+                                Page(s) to Print
+                            </div>
+                            <div class="text-sm font-regular">
+                                {{ p.print_page_count }}
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <div class="mt-2 text-xs text-gray-400">
+                                Sheet(s) to Print
+                            </div>
+                            <div class="text-sm font-regular">
+                                {{ p.print_sheets_count }}
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <div class="mt-2 text-xs text-gray-400">Price</div>
+                            <div class="text-sm font-regular">
+                                RM{{ p.total_price }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-indigo-500 font-semibold text-sm">
+                        Payment Details
+                    </div>
+                    <div
+                        v-for="pm in payments"
+                        :key="{ payments: pm.order_id }"
+                    >
+                        <div
+                            v-if="pm.order_id === p.order_id"
+                            class="grid grid-cols-2"
+                        >
+                            <div class="col-span-1">
+                                <div class="mt-2 text-xs text-gray-400">
+                                    Payment Method
+                                </div>
+                                <div
+                                    v-if="pm.payment_type === 1"
+                                    class="text-sm font-regular"
+                                >
+                                    Full Payment
+                                </div>
+                                <div
+                                    v-if="pm.payment_type === 2"
+                                    class="text-sm font-regular"
+                                >
+                                    Deposit
+                                </div>
+                                <div
+                                    v-if="pm.payment_type === 3"
+                                    class="text-sm font-regular"
+                                >
+                                    Cash on Delivery
+                                </div>
+                            </div>
+                            <div class="col-span-1">
+                                <div class="mt-2 text-xs text-gray-400">
+                                    Remaining Payment
+                                </div>
+                                <div class="text-sm font-regular">
+                                    RM{{ pm.remaining_payment }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div
@@ -330,18 +492,35 @@
                             Pickup Date & Time
                         </div>
 
-                        <div class="text-lg font-semibold">
+                        <div class="text-md font-semibold">
                             {{ moment(p.order_pickup_date).format("DD MMM") }},
                             {{ moment(pickupsTime[index]).format("hh:mmA") }}
                         </div>
                     </div>
-                    <div v-if="!isCustomer" class="mt-2">
+                    <div v-if="isCustomer" class="mt-2">
                         <div>
                             <Link
-                                v-bind:href="'/pickup/' + p.order_id"
+                                :href="'/order/' + p.order_id"
+                                class="px-4 py-2 text-sm font-semibold rounded-md bg-indigo-500 text-white"
+                                >View Order</Link
+                            >
+                        </div>
+                    </div>
+                    <div
+                        v-if="!isCustomer"
+                        class="flex justify-end gap-x-2 mt-2"
+                    >
+                        <div>
+                            <Link
+                                :href="'/pickup/' + p.order_id"
                                 method="put"
                                 class="px-4 py-2 text-sm font-semibold bg-indigo-500 text-white rounded-md"
                                 >Order Collected</Link
+                            >
+                            <Link
+                                :href="'/order/' + p.order_id"
+                                class="pl-4 py-2 text-sm font-semibold rounded-md bg-white text-indigo-500"
+                                >View Order</Link
                             >
                         </div>
                     </div>
@@ -372,6 +551,7 @@ defineProps({
     orders: Object,
     pickups: Object,
     services: Array,
+    payments: Array,
     ordersTime: Array,
     pickupsTime: Array,
 });
