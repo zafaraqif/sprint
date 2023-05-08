@@ -132,6 +132,9 @@ class OrderController extends Controller
             $order->save();
         }
 
+        $timezone = 'Asia/Kuala_Lumpur';
+        $time = Carbon::createFromTimeString($order->order_pickup_time, $timezone);
+
         if ($order->order_status === null) {
             return inertia(
                 'Order/Show',
@@ -139,6 +142,7 @@ class OrderController extends Controller
                     'order' => $order,
                     'files' => $order->file,
                     'service' => $order->service,
+                    'time' => $time,
                     'page' => 'order',
                 ]
             );
@@ -149,6 +153,7 @@ class OrderController extends Controller
                     'order' => $order,
                     'files' => $order->file,
                     'service' => $order->service,
+                    'time' => $time,
                     'page' => 'summary',
                 ]
             );

@@ -73,11 +73,6 @@ class ServiceController extends Controller
         return redirect()->route('account.index')->with('success', 'Service was created!');
     }
 
-    public function show(Service $service)
-    {
-        //
-    }
-
     public function edit(Service $service)
     {
         return inertia(
@@ -109,11 +104,6 @@ class ServiceController extends Controller
             ])
         );
         return redirect()->back()->with('success', $service->service_name . ' was updated!');
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 
     public function change(Service $service, Community $community)

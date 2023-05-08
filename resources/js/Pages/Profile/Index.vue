@@ -123,8 +123,8 @@
                             Operational Hours
                         </div>
                         <div class="text-md font-semibold">
-                            {{ service.start_time }} -
-                            {{ service.end_time }}
+                            {{ moment(times[0]).format("hh:mmA") }} -
+                            {{ moment(times[1]).format("hh:mmA") }}
                         </div>
                     </div>
                     <div class="col-span-1">
@@ -132,8 +132,8 @@
                             Pickup Hours
                         </div>
                         <div class="text-md font-semibold">
-                            {{ service.start_pickup_time }} -
-                            {{ service.end_pickup_time }}
+                            {{ moment(times[2]).format("hh:mmA") }} -
+                            {{ moment(times[3]).format("hh:mmA") }}
                         </div>
                     </div>
                 </div>
@@ -197,6 +197,7 @@ const user = computed(() => page.props.value.user);
 defineProps({
     service: Object,
     community: Object,
+    times: Array,
 });
 
 const form = useForm({
@@ -210,4 +211,16 @@ const update = () =>
     );
 
 const isCustomer = computed(() => page.props.value.user.user_type == 1);
+</script>
+
+<script>
+import moment from "moment";
+
+export default {
+    data() {
+        return {
+            moment: moment,
+        };
+    },
+};
 </script>

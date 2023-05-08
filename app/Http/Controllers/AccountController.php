@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use CArbon\Carbon;
 
 class AccountController extends Controller
 {
@@ -12,11 +13,23 @@ class AccountController extends Controller
     {
         (Auth::user()->user_type == 1) ? $service = null : $service = Auth::user()->service;
         ($service == null) ? $community = null : $community = $service->community;
+
+        $timezone = 'Asia/Kuala_Lumpur';
+        if ($service == null) {
+            $times[] = 0;
+        } else {
+            $times[0] = Carbon::createFromTimeString($service->start_time, $timezone);
+            $times[1] = Carbon::createFromTimeString($service->end_time, $timezone);
+            $times[2] = Carbon::createFromTimeString($service->start_pickup_time, $timezone);
+            $times[3] = Carbon::createFromTimeString($service->end_pickup_time, $timezone);
+        }
+
         return inertia(
             'Profile/Index',
             [
                 'service' => $service,
-                'community' => $community
+                'community' => $community,
+                'times' => $times
             ]
         );
     }

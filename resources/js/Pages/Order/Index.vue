@@ -43,6 +43,7 @@
             <tbody
                 v-for="(order, index) in orders"
                 :key="{ orders: order.order_id }"
+                class="hover:bg-slate-50"
             >
                 <tr class="border-b border-gray-100">
                     <td class="p-6 font-semibold">#{{ order.order_id }}</td>

@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="inline-block px-4 text-sm font-medium text-white">
-            {{ user.name }}
+            Hi, {{ user.name }}
         </div>
         <Link
             href="/logout"

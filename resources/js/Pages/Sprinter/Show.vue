@@ -19,7 +19,7 @@
     </div>
     <div class="grid grid-cols-2 gap-4">
         <div
-            v-for="service in services"
+            v-for="(service, index) in services"
             :key="service.service_id"
             class="bg-white p-6 rounded-lg shadow-sm"
         >
@@ -63,8 +63,8 @@
                 <div>
                     <div class="text-xs text-gray-500">Pickup Hours</div>
                     <div class="text-md font-semibold">
-                        {{ service.start_pickup_time }} -
-                        {{ service.end_pickup_time }}
+                        {{ moment(start[index]).format("hh:mmA") }} -
+                        {{ moment(end[index]).format("hh:mmA") }}
                     </div>
                 </div>
                 <div class="mt-2">
@@ -98,6 +98,20 @@ import Breadcrumb from "@/Layouts/Topbar/Breadcrumb.vue";
 import RightSide from "@/Layouts/Topbar/RightSide.vue";
 defineProps({
     services: Array,
+    start: Array,
+    end: Array,
 });
 const back = () => window.history.back();
+</script>
+
+<script>
+import moment from "moment";
+
+export default {
+    data() {
+        return {
+            moment: moment,
+        };
+    },
+};
 </script>

@@ -2,7 +2,12 @@
     <Navbar>
         <PageTitle>
             <Title>2. Service Details</Title>
-            <Breadcrumb><span>Print Service</span></Breadcrumb>
+            <Breadcrumb
+                ><span
+                    >Print Service &nbsp;/&nbsp; Community &nbsp;/&nbsp; Service
+                    Details</span
+                ></Breadcrumb
+            >
         </PageTitle>
         <RightSide></RightSide>
     </Navbar>

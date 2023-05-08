@@ -37,7 +37,10 @@
                         type="password"
                         class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                     />
-                    <div v-if="form.errors.password">
+                    <div
+                        v-if="form.errors.password"
+                        class="mt-1 text-xs text-red-500"
+                    >
                         {{ form.errors.password }}
                     </div>
                 </div>

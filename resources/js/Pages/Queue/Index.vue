@@ -23,11 +23,15 @@
         <tbody v-if="orders == 0">
             <tr class="text-center">
                 <td class="p-6 text-gray-500 font-semibold" colspan="7">
-                    No orders yet
+                    No order(s) to print
                 </td>
             </tr>
         </tbody>
-        <tbody v-for="(order, index) in orders" :key="order.order_id">
+        <tbody
+            v-for="(order, index) in orders"
+            :key="order.order_id"
+            class="hover:bg-slate-50"
+        >
             <tr class="border-b border-gray-100">
                 <td class="p-6 font-semibold">#{{ order.order_id }}</td>
                 <td class="p-6">
