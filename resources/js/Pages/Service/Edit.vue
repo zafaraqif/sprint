@@ -36,7 +36,7 @@
             </div>
             <div>
                 <Heading1 class="text-indigo-500">Open</Heading1>
-                <Heading5>Unhide service for 24h</Heading5>
+                <Heading5>Unhide service</Heading5>
             </div>
         </Link>
         <span class="flex gap-x-4 w-1/4 p-6 rounded-lg shadow-sm bg-indigo-500">
@@ -114,7 +114,7 @@
             </div>
             <div>
                 <Heading1 class="text-indigo-500">Close</Heading1>
-                <Heading5>Hide service for 24h</Heading5>
+                <Heading5>Hide service</Heading5>
             </div>
         </Link>
     </div>

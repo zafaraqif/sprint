@@ -1,5 +1,5 @@
 <template>
-    <div class="flex">
+    <div class="bg-white flex">
         <div class="w-1/2 ml-16 mt-48">
             <div class="flex">
                 <div

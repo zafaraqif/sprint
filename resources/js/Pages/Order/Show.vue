@@ -18,10 +18,7 @@
         <Navbar>
             <PageTitle>
                 <Title>Order Summary</Title>
-                <Breadcrumb
-                    ><a href="/order">Order History</a> &nbsp;/&nbsp;
-                    <span>Order #{{ order.order_id }}</span></Breadcrumb
-                >
+                <Breadcrumb> Order #{{ order.order_id }}</Breadcrumb>
             </PageTitle>
             <RightSide></RightSide>
         </Navbar>
@@ -162,7 +159,8 @@
             </div>
             <div v-if="!isOrder" class="mt-6">
                 <Link
-                    :href="route('order.index')"
+                    href="#"
+                    @click="back"
                     class="bg-indigo-100 text-indigo-500 font-semibold text-sm px-4 py-2 rounded-md"
                     >Back</Link
                 >
@@ -296,6 +294,7 @@ const form = useForm({
 });
 
 const create = () => form.post(route("payment.store"));
+const back = () => window.history.back();
 </script>
 
 <script>

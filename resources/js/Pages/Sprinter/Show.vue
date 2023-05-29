@@ -26,7 +26,7 @@
             <div class="text-xl font-semibold">
                 {{ service.service_name }}
             </div>
-            <div class="mt-6 text-sm text-indigo-500 font-semibold">
+            <div class="mt-4 text-sm text-indigo-500 font-semibold">
                 Pricing & Details
             </div>
             <div class="mt-2 grid grid-cols-2 justify-items-start">
@@ -59,7 +59,12 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-between mt-6">
+
+            <div
+                class="flex justify-between mt-4 pt-4 border-t border-gray-100"
+            ></div>
+
+            <div class="flex justify-between">
                 <div>
                     <div class="text-xs text-gray-500">Pickup Hours</div>
                     <div class="text-md font-semibold">

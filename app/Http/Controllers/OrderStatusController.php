@@ -18,7 +18,7 @@ class OrderStatusController extends Controller
     {
         $order->order_status = 1;
         $order->save();
-        return redirect()->back()->with('success', 'Order #' . $order->order_id . ' was cancelled!');
+        return redirect()->back()->with('success', 'Order #' . $order->order_id . ' was cancelled! Refund is being processed.');
     }
 
     public function approve(Order $order)

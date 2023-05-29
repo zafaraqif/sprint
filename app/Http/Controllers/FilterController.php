@@ -8,13 +8,13 @@ use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 
-class SearchController extends Controller
+class FilterController extends Controller
 {
     public function store(Request $request)
     {
-        $keyword = $request->search;
+        $state = $request->state;
         Auth::user()->user_type == 2 ? $service = Auth::user()->service : $service = null;
-        $communities = Community::where('community_name', 'like', '%' . $keyword . '%')->orWhere('locality', 'like', '%' . $keyword . '%')->orWhere('district', 'like', '%' . $keyword . '%')->orWhere('state', 'like', '%' . $keyword . '%')->orderBy('community_name')->get();
+        $communities = Community::where('state', '=', $state)->get();
         $total = $communities->count();
 
         $communityId = Arr::pluck($communities, 'community_id');

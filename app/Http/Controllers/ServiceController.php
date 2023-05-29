@@ -103,6 +103,16 @@ class ServiceController extends Controller
                 'charge_80gsm' => 'required|min:0',
             ])
         );
+
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        if (date("H:i:s") >= $request->start_time && date("H:i:s") <= $request->end_time) {
+            $service->service_status = 1;
+            $service->save();
+        } else {
+            $service->service_status = 0;
+            $service->save();
+        }
+
         return redirect()->back()->with('success', $service->service_name . ' was updated!');
     }
 

@@ -54,12 +54,6 @@
                         type="password"
                         class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                     />
-                    <div
-                        v-if="form.errors.password"
-                        class="mt-1 text-xs text-red-500"
-                    >
-                        {{ form.errors.password }}
-                    </div>
                 </div>
                 <div class="col-span-1">
                     <label
@@ -74,10 +68,10 @@
                         class="block w-full p-2 rounded-md border border-gray-200 text-gray-500"
                     />
                     <div
-                        v-if="form.errors.password_confirmation"
+                        v-if="form.errors.password"
                         class="mt-1 text-xs text-red-500"
                     >
-                        {{ form.errors.password_confirmation }}
+                        {{ form.errors.password }}
                     </div>
                 </div>
                 <div class="col-span-2">

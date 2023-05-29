@@ -14,6 +14,7 @@ use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\FilterController;
 
 // Auth Routes
 Route::get('login', [AuthController::class, 'create'])->name('login');
@@ -34,6 +35,7 @@ Route::resource('order.file', FileController::class)->only(['index', 'create', '
 Route::resource('payment', PaymentController::class)->only('store')->middleware('cors');
 Route::resource('queue', QueueController::class)->only('index');
 Route::resource('search', SearchController::class)->only('store');
+Route::resource('filter', FilterController::class)->only('store');
 
 // Custom Routes
 Route::get('/', [IndexController::class, 'index']);

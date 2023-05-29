@@ -21,6 +21,7 @@ class CommunityController extends Controller
     {
         Auth::user()->user_type == 2 ? $service = Auth::user()->service : $service = null;
         $community = Community::orderBy('community_name')->get();
+        $total = Community::all()->count();
         $communityId = Arr::pluck($community, 'community_id');
         foreach ($communityId as $id) {
             $sprinter[] = Service::where('community_id', '=', $id)->where('service_status', '=', 1)->count();
@@ -28,6 +29,7 @@ class CommunityController extends Controller
 
         if ($communityId == null) {
             $sprinter = 0;
+            $total = 0;
         }
 
         return inertia(
@@ -35,6 +37,7 @@ class CommunityController extends Controller
             [
                 'communities' => $community,
                 'service' => $service,
+                'total' => $total,
                 'sprinter' => $sprinter
             ]
         );
