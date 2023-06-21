@@ -14,6 +14,7 @@ class AccountController extends Controller
         (Auth::user()->user_type == 1) ? $service = null : $service = Auth::user()->service;
         ($service == null) ? $community = null : $community = $service->community;
 
+        //change time format
         $timezone = 'Asia/Kuala_Lumpur';
         if ($service == null) {
             $times[] = 0;
